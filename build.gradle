@@ -1,0 +1,50 @@
+plugins {
+    id "java"
+    id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
+}
+
+group "net.codinux.util"
+version "1.0.0-SNAPSHOT"
+ext.artifactId = "stopwatch"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+    implementation "org.slf4j:slf4j-api:1.7.32"
+
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+
+    testImplementation "org.mockito:mockito-junit-jupiter:3.12.2"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:3.2.0"
+
+    testImplementation "org.assertj:assertj-core:3.20.2"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+def commonScriptsFile = new File(new File(project.gradle.gradleUserHomeDir, "scripts"), "commonScripts.gradle")
+if (commonScriptsFile.exists()) {
+    apply from: commonScriptsFile
+}
+
+
+ext.sourceCodeRepositoryBaseUrl = "https://github.com/codinux-gmbh/Stopwatch"
+
+ext.useNewSonatypeRepo = true
+ext.packageGroup = "net.codinux"
+
+ext.developerId = "codinux"
+ext.developerName = "codinux GmbH & Co. KG"
+ext.developerMail = "git@codinux.net"
+
+ext.licenseName = "The Apache License, Version 2.0"
+ext.licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0.txt"
