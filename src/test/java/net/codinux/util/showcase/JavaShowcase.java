@@ -39,7 +39,7 @@ public class JavaShowcase {
         // returns elapsed time formatted
         String formattedDuration = Stopwatch.formatDuration(() -> myTask());
 
-        // logs elapsed time to class' slf4j logger
+        // logs elapsed time to class' slf4j logger in format: "<action> <formatted_duration>"
         Stopwatch.logDuration("My important task", () -> myTask()); // see console log output
 
         // of course you can also specify the (slf4j) logger to log to
@@ -63,7 +63,7 @@ public class JavaShowcase {
         myTask();
         String formattedDuration = formatDuration.stopAndFormat();
 
-        // logs elapsed time to class' slf4j logger
+        // logs elapsed time to class' slf4j logger in format: "<action> <formatted_duration>"
         Stopwatch logDuration = new Stopwatch();
         myTask();
         logDuration.stopAndLog("Heavy calculation task"); // see console log output
@@ -73,7 +73,7 @@ public class JavaShowcase {
         Duration notStartedDuration = notStartedAutomatically.getElapsed(); // returns a duration of 0 as stopwatch has not been started yet
 
         notStartedAutomatically.start(); // now start the stopwatch manually
-        myTask();
+        myTask(); // mimic heavy calculation
 
         notStartedAutomatically.stop(); // stops the stopwatch manually
         Duration durationAfterStopping = notStartedAutomatically.getElapsed(); // gets the elapsed time in java.time.Duration
