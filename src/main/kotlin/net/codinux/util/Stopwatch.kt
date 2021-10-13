@@ -7,22 +7,26 @@ import java.util.concurrent.TimeUnit
 import java.util.function.Supplier
 
 
-open class Stopwatch @JvmOverloads constructor(createStarted: Boolean = true) {
+open class Stopwatch @JvmOverloads constructor(
+    createStarted: Boolean = true,
+    protected open val timeFormatter: TimeFormatter = DefaultTimeFormatter()
+) {
 
     companion object {
+
+        private val defaultTimeFormatter = DefaultTimeFormatter()
+
         private val log = LoggerFactory.getLogger(Stopwatch::class.java)
 
 
         @JvmStatic
         fun measureDuration(task: Runnable): Duration {
-            return measureDuration(Stopwatch()) { task.run() }
+            return measureDuration { task.run() }
         }
 
         fun measureDuration(task: () -> Unit): Duration {
-            return measureDuration(Stopwatch(), task)
-        }
+            val stopwatch = Stopwatch()
 
-        private fun measureDuration(stopwatch: Stopwatch, task: () -> Unit): Duration {
             task()
 
             return stopwatch.stop()
@@ -31,14 +35,21 @@ open class Stopwatch @JvmOverloads constructor(createStarted: Boolean = true) {
 
         @JvmStatic
         fun formatDuration(task: Runnable): String {
-            return formatDuration(Stopwatch()) { task.run() }
+            return formatDuration(defaultTimeFormatter) { task.run() }
+        }
+
+        @JvmStatic
+        fun formatDuration(timeFormatter: TimeFormatter, task: Runnable): String {
+            return formatDuration(timeFormatter) { task.run() }
         }
 
         fun formatDuration(task: () -> Unit): String {
-            return formatDuration(Stopwatch(), task)
+            return formatDuration(defaultTimeFormatter, task)
         }
 
-        private fun formatDuration(stopwatch: Stopwatch, task: () -> Unit): String {
+        fun formatDuration(timeFormatter: TimeFormatter, task: () -> Unit): String {
+            val stopwatch = Stopwatch()
+
             task()
 
             return stopwatch.stopAndFormat()
@@ -182,21 +193,7 @@ open class Stopwatch @JvmOverloads constructor(createStarted: Boolean = true) {
 
 
     open fun formatElapsedTime(): String {
-        return formatElapsedTime(elapsed)
-    }
-
-    open fun formatElapsedTime(elapsed: Duration): String {
-
-        return if (elapsed.toMinutes() > 0) {
-            String.format("%02d:%02d.%03d min", elapsed.toMinutes(), elapsed.toSecondsPart(), elapsed.toMillisPart())
-        }
-        else if (elapsed.toSeconds() > 0) {
-            String.format("%02d.%03d s", elapsed.toSeconds(), elapsed.toMillisPart())
-        }
-        else {
-            val durationMicroseconds = elapsed.toNanos() / 1000
-            String.format("%02d.%03d ms", elapsed.toMillis(), (durationMicroseconds % 1000))
-        }
+        return timeFormatter.format(elapsed)
     }
 
     open fun logElapsedTime(loggedAction: String, logger: Logger) {
