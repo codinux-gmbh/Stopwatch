@@ -115,6 +115,9 @@ open class Stopwatch @JvmOverloads constructor(
     }
 
 
+    /**
+     * Returns if the stopwatch currently is running (or if it's in stopped state).
+     */
     open var isRunning = false
         protected set
 
@@ -122,6 +125,10 @@ open class Stopwatch @JvmOverloads constructor(
 
     protected var elapsedDurationWhenStopped: Duration? = null
 
+    /**
+     * Returns the elapsed time as [Duration].
+     * If another time unit is desired see [elapsedNanos] and [getElapsed].
+     */
     open val elapsed: Duration
         get() {
             elapsedDurationWhenStopped?.let { return it }
@@ -133,6 +140,9 @@ open class Stopwatch @JvmOverloads constructor(
             return Duration.ofNanos(0) // not running and never started
         }
 
+    /**
+     * Returns the elapsed time in nanoseconds.
+     */
     open val elapsedNanos: Long
         get() = elapsed.toNanos()
 
@@ -144,6 +154,9 @@ open class Stopwatch @JvmOverloads constructor(
     }
 
 
+    /**
+     * Starts the stopwatch.
+     */
     open fun start() {
         elapsedDurationWhenStopped = null
 
@@ -152,6 +165,9 @@ open class Stopwatch @JvmOverloads constructor(
         startedAt = System.nanoTime()
     }
 
+    /**
+     * Stops the stopwatch.
+     */
     open fun stop(): Duration {
         if (isRunning) {
             elapsedDurationWhenStopped = calculateDuration()
@@ -162,26 +178,38 @@ open class Stopwatch @JvmOverloads constructor(
         return elapsed
     }
 
+    /**
+     * Stops the stopwatch and returns its elapsed time formatted by [TimeFormatter] passed to constructor.
+     */
     open fun stopAndFormat(): String {
         stop()
 
         return formatElapsedTime()
     }
 
-    open fun stopAndLog(loggedAction: String): Duration {
-        return stopAndLog(loggedAction, log)
+    /**
+     * Stops the stopwatch and logs the elapsed time formatted to class' slf4j Logger in format: "<action> <formatted_duration>".
+     */
+    open fun stopAndLog(action: String): Duration {
+        return stopAndLog(action, log)
     }
 
-    open fun stopAndLog(loggedAction: String, logger: Logger): Duration {
+    /**
+     * Stops the stopwatch and logs the elapsed time formatted to [logger] in format: "<action> <formatted_duration>".
+     */
+    open fun stopAndLog(action: String, logger: Logger): Duration {
         stop()
 
-        logElapsedTime(loggedAction, logger)
+        logElapsedTime(action, logger)
 
         return elapsed
     }
 
 
-    open fun elapsed(desiredUnit: TimeUnit): Long {
+    /**
+     * Returns the elapsed time in a desired time unit.
+     */
+    open fun getElapsed(desiredUnit: TimeUnit): Long {
         return desiredUnit.convert(elapsedNanos, TimeUnit.NANOSECONDS)
     }
 
@@ -192,14 +220,20 @@ open class Stopwatch @JvmOverloads constructor(
     }
 
 
+    /**
+     * Returns the elapsed time formatted by [TimeFormatter] passed to constructor.
+     */
     open fun formatElapsedTime(): String {
         return timeFormatter.format(elapsed)
     }
 
-    open fun logElapsedTime(loggedAction: String, logger: Logger) {
+    /**
+     * Logs the elapsed time formatted to [logger] in format: "<action> <formatted_duration>".
+     */
+    open fun logElapsedTime(action: String, logger: Logger) {
         val formattedElapsedTime = formatElapsedTime()
 
-        logger.info("$loggedAction took $formattedElapsedTime")
+        logger.info("$action took $formattedElapsedTime")
     }
 
 
