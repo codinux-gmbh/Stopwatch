@@ -5,7 +5,7 @@ plugins {
 
 group "net.codinux.util"
 version "1.0.0-SNAPSHOT"
-ext.artifactId = "stopwatch"
+ext.artifactName = "stopwatch"
 
 repositories {
     mavenCentral()
