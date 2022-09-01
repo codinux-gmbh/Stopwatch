@@ -9,7 +9,7 @@ class ElapsedTimeStatisticsPrinterTest {
   @Test
   fun addElapsedTime() {
     val action = "test"
-    Stopwatch.logDuration(action, true) { TimeUnit.MILLISECONDS.sleep(1) }
-    Stopwatch.logDuration(action, false, true) { TimeUnit.MILLISECONDS.sleep(5) }
+    Stopwatch.logDuration(action, true) { }
+    Stopwatch.logDuration(action, false, true) { TimeUnit.MICROSECONDS.sleep(1) }
   }
 }
