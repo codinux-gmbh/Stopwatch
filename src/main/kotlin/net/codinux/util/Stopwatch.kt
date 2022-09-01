@@ -34,21 +34,13 @@ open class Stopwatch @JvmOverloads constructor(
 
 
         @JvmStatic
-        fun formatDuration(task: Runnable): String {
-            return formatDuration(defaultTimeFormatter) { task.run() }
-        }
-
-        @JvmStatic
-        fun formatDuration(timeFormatter: TimeFormatter, task: Runnable): String {
+        @JvmOverloads
+        fun formatDuration(timeFormatter: TimeFormatter = defaultTimeFormatter, task: Runnable): String {
             return formatDuration(timeFormatter) { task.run() }
         }
 
-        fun formatDuration(task: () -> Unit): String {
-            return formatDuration(defaultTimeFormatter, task)
-        }
-
-        fun formatDuration(timeFormatter: TimeFormatter, task: () -> Unit): String {
-            val stopwatch = Stopwatch()
+        fun formatDuration(timeFormatter: TimeFormatter = defaultTimeFormatter, task: () -> Unit): String {
+            val stopwatch = Stopwatch(timeFormatter = timeFormatter)
 
             task()
 
@@ -57,30 +49,18 @@ open class Stopwatch @JvmOverloads constructor(
 
 
         @JvmStatic
-        fun logDuration(loggedAction: String, task: Runnable) {
-            return logDuration(loggedAction, log, task)
-        }
-
-        @JvmStatic
-        fun <T> logDuration(loggedAction: String, task: Supplier<T>): T {
-            return logDuration(loggedAction, log, task)
-        }
-
-        @JvmStatic
-        fun logDuration(loggedAction: String, logger: Logger, task: Runnable) {
+        @JvmOverloads
+        fun logDuration(loggedAction: String, logger: Logger = log, task: Runnable) {
             return logDuration(loggedAction, logger) { task.run() }
         }
 
         @JvmStatic
-        fun <T> logDuration(loggedAction: String, logger: Logger, task: Supplier<T>): T {
+        @JvmOverloads
+        fun <T> logDuration(loggedAction: String, logger: Logger = log, task: Supplier<T>): T {
             return logDuration(loggedAction, logger) { task.get() }
         }
 
-        fun <T> logDuration(loggedAction: String, task: () -> T): T {
-            return logDuration(loggedAction, log, task)
-        }
-
-        fun <T> logDuration(loggedAction: String, logger: Logger, task: () -> T): T {
+        fun <T> logDuration(loggedAction: String, logger: Logger = log, task: () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
@@ -99,11 +79,7 @@ open class Stopwatch @JvmOverloads constructor(
             return stopwatch.stop()
         }
 
-        suspend fun <T> logDurationSuspendable(loggedAction: String, task: suspend () -> T): T {
-            return logDurationSuspendable(loggedAction, log, task)
-        }
-
-        suspend fun <T> logDurationSuspendable(loggedAction: String, logger: Logger, task: suspend () -> T): T {
+        suspend fun <T> logDurationSuspendable(loggedAction: String, logger: Logger = log, task: suspend () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
@@ -188,16 +164,10 @@ open class Stopwatch @JvmOverloads constructor(
     }
 
     /**
-     * Stops the stopwatch and logs the elapsed time formatted to class' slf4j Logger in format: "<action> <formatted_duration>".
-     */
-    open fun stopAndLog(action: String): Duration {
-        return stopAndLog(action, log)
-    }
-
-    /**
      * Stops the stopwatch and logs the elapsed time formatted to [logger] in format: "<action> <formatted_duration>".
      */
-    open fun stopAndLog(action: String, logger: Logger): Duration {
+    @JvmOverloads
+    open fun stopAndLog(action: String, logger: Logger = log): Duration {
         stop()
 
         logElapsedTime(action, logger)
