@@ -9,7 +9,7 @@ import java.util.function.Supplier
 
 open class Stopwatch @JvmOverloads constructor(
     createStarted: Boolean = true,
-    protected open val timeFormatter: TimeFormatter = DefaultTimeFormatter()
+    protected open val timeFormatter: TimeFormatter = defaultTimeFormatter
 ) {
 
     companion object {
@@ -160,7 +160,7 @@ open class Stopwatch @JvmOverloads constructor(
      * Stops the stopwatch and returns its elapsed time formatted by [TimeFormatter] passed to constructor.
      */
     @JvmOverloads
-    open fun stopAndFormat(timeFormatter: TimeFormatter = defaultTimeFormatter): String {
+    open fun stopAndFormat(timeFormatter: TimeFormatter = this.timeFormatter): String {
         stop()
 
         return formatElapsedTime(timeFormatter)
@@ -170,7 +170,7 @@ open class Stopwatch @JvmOverloads constructor(
      * Stops the stopwatch and logs the elapsed time formatted to [logger] in format: "<action> <formatted_duration>".
      */
     @JvmOverloads
-    open fun stopAndLog(action: String, printStatistics: Boolean = false, printStatisticsImmediately: Boolean = false, logger: Logger = log, timeFormatter: TimeFormatter = defaultTimeFormatter): Duration {
+    open fun stopAndLog(action: String, printStatistics: Boolean = false, printStatisticsImmediately: Boolean = false, logger: Logger = log, timeFormatter: TimeFormatter = this.timeFormatter): Duration {
         stop()
 
         logElapsedTime(action, printStatistics, printStatisticsImmediately, logger, timeFormatter)
@@ -196,7 +196,7 @@ open class Stopwatch @JvmOverloads constructor(
     /**
      * Returns the elapsed time formatted by [TimeFormatter] passed to constructor.
      */
-    open fun formatElapsedTime(timeFormatter: TimeFormatter = defaultTimeFormatter): String {
+    open fun formatElapsedTime(timeFormatter: TimeFormatter = this.timeFormatter): String {
         return timeFormatter.format(elapsed)
     }
 
@@ -204,7 +204,7 @@ open class Stopwatch @JvmOverloads constructor(
      * Logs the elapsed time formatted to [logger] in format: "<action> <formatted_duration>".
      */
     @JvmOverloads
-    open fun logElapsedTime(action: String, printStatistics: Boolean = false, printStatisticsImmediately: Boolean = false, logger: Logger = log, timeFormatter: TimeFormatter = defaultTimeFormatter) {
+    open fun logElapsedTime(action: String, printStatistics: Boolean = false, printStatisticsImmediately: Boolean = false, logger: Logger = log, timeFormatter: TimeFormatter = this.timeFormatter) {
         val formattedElapsedTime = formatElapsedTime(timeFormatter)
 
         logger.info("$action took $formattedElapsedTime")
