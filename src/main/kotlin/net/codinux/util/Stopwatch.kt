@@ -9,6 +9,7 @@ import java.util.function.Supplier
 
 open class Stopwatch @JvmOverloads constructor(
     createStarted: Boolean = true,
+    protected open val logger: Logger = Companion.logger,
     protected open val timeFormatter: TimeFormatter = defaultTimeFormatter
 ) {
 
@@ -170,7 +171,7 @@ open class Stopwatch @JvmOverloads constructor(
      * Stops the stopwatch and logs the elapsed time formatted to [logger] in format: "<action> <formatted_duration>".
      */
     @JvmOverloads
-    open fun stopAndLog(action: String, printStatistics: Boolean = false, printStatisticsImmediately: Boolean = false, logger: Logger = Companion.logger, timeFormatter: TimeFormatter = this.timeFormatter): Duration {
+    open fun stopAndLog(action: String, printStatistics: Boolean = false, printStatisticsImmediately: Boolean = false, logger: Logger = this.logger, timeFormatter: TimeFormatter = this.timeFormatter): Duration {
         stop()
 
         logElapsedTime(action, printStatistics, printStatisticsImmediately, logger, timeFormatter)
@@ -204,7 +205,7 @@ open class Stopwatch @JvmOverloads constructor(
      * Logs the elapsed time formatted to [logger] in format: "<action> <formatted_duration>".
      */
     @JvmOverloads
-    open fun logElapsedTime(action: String, printStatistics: Boolean = false, printStatisticsImmediately: Boolean = false, logger: Logger = Companion.logger, timeFormatter: TimeFormatter = this.timeFormatter) {
+    open fun logElapsedTime(action: String, printStatistics: Boolean = false, printStatisticsImmediately: Boolean = false, logger: Logger = this.logger, timeFormatter: TimeFormatter = this.timeFormatter) {
         val formattedElapsedTime = formatElapsedTime(timeFormatter)
 
         logger.info("$action took $formattedElapsedTime")
