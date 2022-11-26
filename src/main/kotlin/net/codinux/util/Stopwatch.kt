@@ -210,12 +210,12 @@ open class Stopwatch @JvmOverloads constructor(
 
         logger.info("$action took $formattedElapsedTime")
 
-        if (addToStatistics || printStatisticsNow) {
+        if (addToStatistics) {
             statisticsPrinter.addElapsedTime(action, elapsed)
+        }
 
-            if (printStatisticsNow) {
-                statisticsPrinter.printStatistics(action, logger, timeFormatter)
-            }
+        if (printStatisticsNow) {
+            statisticsPrinter.printStatistics(action, logger, timeFormatter)
         }
     }
 
