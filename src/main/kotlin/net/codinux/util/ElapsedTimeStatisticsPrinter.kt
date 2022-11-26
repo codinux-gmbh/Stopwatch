@@ -41,7 +41,7 @@ open class ElapsedTimeStatisticsPrinter(
       val average = actionStats.map { it.toNanos() }.average().let { Duration.ofNanos(it.toLong()) }
       val total = actionStats.sumOf { it.toNanos() }.let { Duration.ofNanos(it) }
 
-      logger.info("$action: min ${timeFormatter.format(min)}, avg ${timeFormatter.format(average)}, max ${timeFormatter.format(max)}, total ${timeFormatter.format(total)}")
+      logger.info("$action [${actionStats.size}]: min ${timeFormatter.format(min)}, avg ${timeFormatter.format(average)}, max ${timeFormatter.format(max)}, total ${timeFormatter.format(total)}")
     }
   }
 
