@@ -91,6 +91,11 @@ open class Stopwatch @JvmOverloads constructor(
 
             return result
         }
+
+        @JvmOverloads
+        fun printStatistics(action: String, logger: Logger = this.logger, timeFormatter: TimeFormatter = this.defaultTimeFormatter) {
+            statisticsPrinter.printStatistics(action, logger, timeFormatter)
+        }
     }
 
 
@@ -217,6 +222,11 @@ open class Stopwatch @JvmOverloads constructor(
         if (printStatisticsNow) {
             statisticsPrinter.printStatistics(action, logger, timeFormatter)
         }
+    }
+
+    @JvmOverloads
+    open fun printStatistics(action: String, logger: Logger = this.logger, timeFormatter: TimeFormatter = this.timeFormatter) {
+        Stopwatch.printStatistics(action, logger, timeFormatter)
     }
 
 
