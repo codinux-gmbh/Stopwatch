@@ -14,11 +14,11 @@ open class DefaultTimeFormatter : TimeFormatter {
                 String.format("%02d.%03d s", duration.toSeconds(), duration.toMillisPart())
             }
             duration.toMillis() > 0 -> {
-                String.format("%02d.%03d ms", duration.toMillis(), duration.toNanosPart())
+                String.format("%02d.%03d ms", duration.toMillis(), duration.toNanosPart() / 1000 % 1000)
             }
             else -> {
                 val durationMicroseconds = duration.toNanos() / 1000
-                String.format("%02d.%03d μs", durationMicroseconds, duration.toNanosPart())
+                String.format("%02d.%03d μs", durationMicroseconds, duration.toNanosPart() % 1000)
             }
         }
     }

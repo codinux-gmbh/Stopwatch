@@ -14,7 +14,7 @@ class StopwatchTest {
         wait(1, TimeUnit.NANOSECONDS)
 
         val elapsed = underTest.stop()
-//        assertThat(elapsed.toNanos()).isLessThan(1000) // it's not that fast
+//        assertThat(elapsed.toNanos()).isLessThan(1000) // most systems have only microseconds resolution, not nanoseconds
         assertThat(elapsed.toNanos()).isGreaterThan(0)
     }
 
