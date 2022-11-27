@@ -9,17 +9,17 @@ import java.util.function.Supplier
 
 open class Stopwatch @JvmOverloads constructor(
     createStarted: Boolean = true,
-    protected open val logger: Logger = Companion.logger,
-    protected open val timeFormatter: TimeFormatter = defaultTimeFormatter
+    protected open val defaultLogger: Logger = Companion.defaultLogger,
+    protected open val defaultTimeFormatter: TimeFormatter = Companion.defaultTimeFormatter
 ) {
 
     companion object {
 
         private val defaultTimeFormatter = DefaultTimeFormatter()
 
-        private val logger = LoggerFactory.getLogger(Stopwatch::class.java)
+        private val defaultLogger: Logger = LoggerFactory.getLogger(Stopwatch::class.java)
 
-        private val statisticsPrinter = ElapsedTimeStatisticsPrinter(logger, defaultTimeFormatter)
+        private val statisticsPrinter = ElapsedTimeStatisticsPrinter(defaultLogger, defaultTimeFormatter)
 
 
         @JvmStatic
@@ -43,7 +43,7 @@ open class Stopwatch @JvmOverloads constructor(
         }
 
         fun formatDuration(timeFormatter: TimeFormatter = defaultTimeFormatter, task: () -> Unit): String {
-            val stopwatch = Stopwatch(timeFormatter = timeFormatter)
+            val stopwatch = Stopwatch(defaultTimeFormatter = timeFormatter)
 
             task()
 
@@ -53,17 +53,17 @@ open class Stopwatch @JvmOverloads constructor(
 
         @JvmStatic
         @JvmOverloads
-        fun logDuration(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = this.logger, timeFormatter: TimeFormatter = defaultTimeFormatter, task: Runnable) {
+        fun logDuration(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter, task: Runnable) {
             return logDuration(loggedAction, addToStatistics, printStatisticsNow, logger, timeFormatter) { task.run() }
         }
 
         @JvmStatic
         @JvmOverloads
-        fun <T> logDuration(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = this.logger, timeFormatter: TimeFormatter = defaultTimeFormatter, task: Supplier<T>): T {
+        fun <T> logDuration(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter, task: Supplier<T>): T {
             return logDuration(loggedAction, addToStatistics, printStatisticsNow, logger, timeFormatter) { task.get() }
         }
 
-        fun <T> logDuration(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = this.logger, timeFormatter: TimeFormatter = defaultTimeFormatter, task: () -> T): T {
+        fun <T> logDuration(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter, task: () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
@@ -82,7 +82,7 @@ open class Stopwatch @JvmOverloads constructor(
             return stopwatch.stop()
         }
 
-        suspend fun <T> logDurationSuspendable(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = this.logger, timeFormatter: TimeFormatter = defaultTimeFormatter, task: suspend () -> T): T {
+        suspend fun <T> logDurationSuspendable(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter, task: suspend () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
@@ -93,7 +93,7 @@ open class Stopwatch @JvmOverloads constructor(
         }
 
         @JvmOverloads
-        fun printStatistics(action: String, logger: Logger = this.logger, timeFormatter: TimeFormatter = this.defaultTimeFormatter) {
+        fun printStatistics(action: String, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter) {
             statisticsPrinter.printStatistics(action, logger, timeFormatter)
         }
     }
@@ -166,7 +166,7 @@ open class Stopwatch @JvmOverloads constructor(
      * Stops the stopwatch and returns its elapsed time formatted by [TimeFormatter] passed to constructor.
      */
     @JvmOverloads
-    open fun stopAndFormat(timeFormatter: TimeFormatter = this.timeFormatter): String {
+    open fun stopAndFormat(timeFormatter: TimeFormatter = defaultTimeFormatter): String {
         stop()
 
         return formatElapsedTime(timeFormatter)
@@ -176,7 +176,7 @@ open class Stopwatch @JvmOverloads constructor(
      * Stops the stopwatch and logs the elapsed time formatted to [logger] in format: "<action> <formatted_duration>".
      */
     @JvmOverloads
-    open fun stopAndLog(action: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = this.logger, timeFormatter: TimeFormatter = this.timeFormatter): Duration {
+    open fun stopAndLog(action: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter): Duration {
         stop()
 
         logElapsedTime(action, addToStatistics, printStatisticsNow, logger, timeFormatter)
@@ -202,7 +202,7 @@ open class Stopwatch @JvmOverloads constructor(
     /**
      * Returns the elapsed time formatted by [TimeFormatter] passed to constructor.
      */
-    open fun formatElapsedTime(timeFormatter: TimeFormatter = this.timeFormatter): String {
+    open fun formatElapsedTime(timeFormatter: TimeFormatter = defaultTimeFormatter): String {
         return timeFormatter.format(elapsed)
     }
 
@@ -210,7 +210,7 @@ open class Stopwatch @JvmOverloads constructor(
      * Logs the elapsed time formatted to [logger] in format: "<action> <formatted_duration>".
      */
     @JvmOverloads
-    open fun logElapsedTime(action: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = this.logger, timeFormatter: TimeFormatter = this.timeFormatter) {
+    open fun logElapsedTime(action: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter) {
         val formattedElapsedTime = formatElapsedTime(timeFormatter)
 
         logger.info("$action took $formattedElapsedTime")
@@ -225,7 +225,7 @@ open class Stopwatch @JvmOverloads constructor(
     }
 
     @JvmOverloads
-    open fun printStatistics(action: String, logger: Logger = this.logger, timeFormatter: TimeFormatter = this.timeFormatter) {
+    open fun printStatistics(action: String, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter) {
         Stopwatch.printStatistics(action, logger, timeFormatter)
     }
 
