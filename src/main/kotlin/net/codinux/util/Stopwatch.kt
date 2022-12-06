@@ -10,7 +10,8 @@ import java.util.function.Supplier
 open class Stopwatch @JvmOverloads constructor(
     createStarted: Boolean = true,
     protected open val defaultLogger: Logger = DefaultLogger,
-    protected open val defaultTimeFormatter: TimeFormatter = DefaultTimeFormatter
+    protected open val defaultTimeFormatter: TimeFormatter = DefaultTimeFormatter,
+    protected open val defaultStatisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultStatisticsPrinter
 ) {
 
     companion object {
@@ -19,7 +20,7 @@ open class Stopwatch @JvmOverloads constructor(
 
         var DefaultLogger: Logger = LoggerFactory.getLogger(Stopwatch::class.java)
 
-        var StatisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultElapsedTimeStatisticsPrinter(DefaultLogger, DefaultTimeFormatter)
+        var DefaultStatisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultElapsedTimeStatisticsPrinter(DefaultLogger, DefaultTimeFormatter)
 
 
         @JvmStatic
@@ -94,7 +95,7 @@ open class Stopwatch @JvmOverloads constructor(
 
         @JvmOverloads
         fun printStatistics(action: String, logger: Logger = DefaultLogger, timeFormatter: TimeFormatter = DefaultTimeFormatter) {
-            StatisticsPrinter.printStatistics(action, logger, timeFormatter)
+            DefaultStatisticsPrinter.printStatistics(action, logger, timeFormatter)
         }
     }
 
@@ -216,17 +217,17 @@ open class Stopwatch @JvmOverloads constructor(
         logger.info("$action took $formattedElapsedTime")
 
         if (addToStatistics) {
-            StatisticsPrinter.addElapsedTime(action, elapsed)
+            defaultStatisticsPrinter.addElapsedTime(action, elapsed)
         }
 
         if (printStatisticsNow) {
-            StatisticsPrinter.printStatistics(action, logger, timeFormatter)
+            printStatistics(action, logger, timeFormatter)
         }
     }
 
     @JvmOverloads
     open fun printStatistics(action: String, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter) {
-        Stopwatch.printStatistics(action, logger, timeFormatter)
+        defaultStatisticsPrinter.printStatistics(action, logger, timeFormatter)
     }
 
 
