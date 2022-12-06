@@ -135,6 +135,10 @@ open class Stopwatch @JvmOverloads constructor(
             return result
         }
 
+        fun printStatistics(task: String, statisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultStatisticsPrinter) {
+            statisticsPrinter.printStatistics(task)
+        }
+
         @JvmOverloads
         fun printStatistics(task: String, printer: MessagePrinter = DefaultPrinter, timeFormatter: TimeFormatter = DefaultTimeFormatter) {
             DefaultStatisticsPrinter.printStatistics(task, printer, timeFormatter)
