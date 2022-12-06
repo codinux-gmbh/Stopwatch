@@ -27,7 +27,7 @@ open class Stopwatch @JvmOverloads constructor(
             return measureDuration { task.run() }
         }
 
-        fun measureDuration(task: () -> Unit): Duration {
+        inline fun measureDuration(task: () -> Unit): Duration {
             val stopwatch = Stopwatch()
 
             task()
@@ -42,7 +42,7 @@ open class Stopwatch @JvmOverloads constructor(
             return formatDuration(timeFormatter) { task.run() }
         }
 
-        fun formatDuration(timeFormatter: TimeFormatter = defaultTimeFormatter, task: () -> Unit): String {
+        inline fun formatDuration(timeFormatter: TimeFormatter = defaultTimeFormatter, task: () -> Unit): String {
             val stopwatch = Stopwatch(defaultTimeFormatter = timeFormatter)
 
             task()
@@ -63,7 +63,7 @@ open class Stopwatch @JvmOverloads constructor(
             return logDuration(loggedAction, addToStatistics, printStatisticsNow, logger, timeFormatter) { task.get() }
         }
 
-        fun <T> logDuration(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter, task: () -> T): T {
+        inline fun <T> logDuration(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter, task: () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
@@ -74,7 +74,7 @@ open class Stopwatch @JvmOverloads constructor(
         }
 
 
-        suspend fun measureDurationSuspendable(task: suspend () -> Unit): Duration {
+        suspend inline fun measureDurationSuspendable(task: suspend () -> Unit): Duration {
             val stopwatch = Stopwatch()
 
             task()
@@ -82,7 +82,7 @@ open class Stopwatch @JvmOverloads constructor(
             return stopwatch.stop()
         }
 
-        suspend fun <T> logDurationSuspendable(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter, task: suspend () -> T): T {
+        suspend inline fun <T> logDurationSuspendable(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter, task: suspend () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
