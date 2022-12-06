@@ -1,7 +1,7 @@
 package net.codinux.util.showcase;
 
 import net.codinux.util.Stopwatch;
-import org.slf4j.LoggerFactory;
+import net.codinux.util.output.Slf4jMessagePrinter;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -43,7 +43,7 @@ public class JavaShowcase {
         Stopwatch.logDuration("My important task", () -> myTask()); // see console log output
 
         // of course you can also specify the (slf4j) logger to log to
-        Stopwatch.logDuration("Other task", false, false, LoggerFactory.getLogger("Task logger"), () -> myTask());
+        Stopwatch.logDuration("Other task", false, false, new Slf4jMessagePrinter("Task logger"), () -> myTask());
 
         // logs elapsed time and returns task's result
         long heavyCalculationResult = Stopwatch.logDuration("Task that returns a result", () -> {

@@ -1,6 +1,6 @@
 package net.codinux.util
 
-import org.slf4j.Logger
+import net.codinux.util.output.MessagePrinter
 import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
@@ -8,7 +8,7 @@ import kotlin.concurrent.thread
 
 
 open class DefaultElapsedTimeStatisticsPrinter(
-  override val defaultLogger: Logger,
+  override val defaultPrinter: MessagePrinter,
   override val defaultTimeFormatter: TimeFormatter
 ) : ElapsedTimeStatisticsPrinter {
 
@@ -25,21 +25,21 @@ open class DefaultElapsedTimeStatisticsPrinter(
     stats.getOrPut(task, { CopyOnWriteArrayList() } ).add(elapsed)
   }
 
-  override fun printAllStatistics(logger: Logger, timeFormatter: TimeFormatter) {
-    stats.keys.sorted().forEach { task -> printStatistics(task, logger, timeFormatter) }
+  override fun printAllStatistics(printer: MessagePrinter, timeFormatter: TimeFormatter) {
+    stats.keys.sorted().forEach { task -> printStatistics(task, printer, timeFormatter) }
   }
 
-  override fun printStatistics(task: String, logger: Logger, timeFormatter: TimeFormatter) {
+  override fun printStatistics(task: String, printer: MessagePrinter, timeFormatter: TimeFormatter) {
     val taskStats = stats[task]
     if (taskStats.isNullOrEmpty()) {
-      logger.warn("No statistics found for task '$task'")
+      printer.warn("No statistics found for task '$task'")
     } else {
       val min = taskStats.minOrNull()!!
       val max = taskStats.maxOrNull()!!
       val average = taskStats.map { it.toNanos() }.average().let { Duration.ofNanos(it.toLong()) }
       val total = taskStats.sumOf { it.toNanos() }.let { Duration.ofNanos(it) }
 
-      logger.info("$task [${taskStats.size}]: min ${timeFormatter.format(min)}, avg ${timeFormatter.format(average)}, max ${timeFormatter.format(max)}, total ${timeFormatter.format(total)}")
+      printer.info("$task [${taskStats.size}]: min ${timeFormatter.format(min)}, avg ${timeFormatter.format(average)}, max ${timeFormatter.format(max)}, total ${timeFormatter.format(total)}")
     }
   }
 

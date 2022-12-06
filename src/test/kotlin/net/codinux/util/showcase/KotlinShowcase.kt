@@ -1,7 +1,7 @@
 package net.codinux.util.showcase
 
 import net.codinux.util.Stopwatch
-import org.slf4j.LoggerFactory
+import net.codinux.util.output.Slf4jMessagePrinter
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
@@ -44,7 +44,7 @@ class KotlinShowcase {
         Stopwatch.logDuration("My important task") { myTask() } // see console log output
 
         // of course you can also specify the (slf4j) logger to log to
-        Stopwatch.logDuration("Other task", logger = LoggerFactory.getLogger("Task logger")) { myTask() }
+        Stopwatch.logDuration("Other task", printer = Slf4jMessagePrinter("Task logger")) { myTask() }
 
         // logs elapsed time and returns task's result
         val heavyCalculationResult = Stopwatch.logDuration("Task that returns a result") {

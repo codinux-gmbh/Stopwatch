@@ -1,27 +1,27 @@
 package net.codinux.util
 
-import org.slf4j.Logger
+import net.codinux.util.output.MessagePrinter
 import java.time.Duration
 
 
 interface ElapsedTimeStatisticsPrinter {
 
-  val defaultLogger: Logger
+  val defaultPrinter: MessagePrinter
 
   val defaultTimeFormatter: TimeFormatter
 
   fun addElapsedTime(task: String, elapsed: Duration)
 
-  fun printStatistics(task: String) = printStatistics(task, defaultLogger)
+  fun printStatistics(task: String) = printStatistics(task, defaultPrinter)
 
-  fun printStatistics(task: String, logger: Logger = defaultLogger) = printStatistics(task, logger, defaultTimeFormatter)
+  fun printStatistics(task: String, printer: MessagePrinter = defaultPrinter) = printStatistics(task, printer, defaultTimeFormatter)
 
-  fun printStatistics(task: String, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter)
+  fun printStatistics(task: String, printer: MessagePrinter = defaultPrinter, timeFormatter: TimeFormatter = defaultTimeFormatter)
 
-  fun printAllStatistics() = printAllStatistics(defaultLogger)
+  fun printAllStatistics() = printAllStatistics(defaultPrinter)
 
-  fun printAllStatistics(logger: Logger = defaultLogger) = printAllStatistics(logger, defaultTimeFormatter)
+  fun printAllStatistics(printer: MessagePrinter = defaultPrinter) = printAllStatistics(printer, defaultTimeFormatter)
 
-  fun printAllStatistics(logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter)
+  fun printAllStatistics(printer: MessagePrinter = defaultPrinter, timeFormatter: TimeFormatter = defaultTimeFormatter)
 
 }
