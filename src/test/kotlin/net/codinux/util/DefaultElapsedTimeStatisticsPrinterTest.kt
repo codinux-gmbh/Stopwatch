@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 
 import java.util.concurrent.TimeUnit
 
-class ElapsedTimeStatisticsPrinterTest {
+class DefaultElapsedTimeStatisticsPrinterTest {
 
   @Test
   fun addElapsedTime() {

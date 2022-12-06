@@ -19,7 +19,7 @@ open class Stopwatch @JvmOverloads constructor(
 
         var DefaultLogger: Logger = LoggerFactory.getLogger(Stopwatch::class.java)
 
-        var StatisticsPrinter = ElapsedTimeStatisticsPrinter(DefaultLogger, DefaultTimeFormatter)
+        var StatisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultElapsedTimeStatisticsPrinter(DefaultLogger, DefaultTimeFormatter)
 
 
         @JvmStatic
