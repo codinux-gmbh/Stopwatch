@@ -10,13 +10,13 @@ interface ElapsedTimeStatisticsPrinter {
 
   val defaultTimeFormatter: TimeFormatter
 
-  fun addElapsedTime(action: String, elapsed: Duration)
+  fun addElapsedTime(task: String, elapsed: Duration)
 
-  fun printStatistics(action: String) = printStatistics(action, defaultLogger)
+  fun printStatistics(task: String) = printStatistics(task, defaultLogger)
 
-  fun printStatistics(action: String, logger: Logger = defaultLogger) = printStatistics(action, logger, defaultTimeFormatter)
+  fun printStatistics(task: String, logger: Logger = defaultLogger) = printStatistics(task, logger, defaultTimeFormatter)
 
-  fun printStatistics(action: String, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter)
+  fun printStatistics(task: String, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter)
 
   fun printAllStatistics() = printAllStatistics(defaultLogger)
 

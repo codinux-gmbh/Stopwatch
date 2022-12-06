@@ -21,25 +21,25 @@ open class DefaultElapsedTimeStatisticsPrinter(
   }
 
 
-  override fun addElapsedTime(action: String, elapsed: Duration) {
-    stats.getOrPut(action, { CopyOnWriteArrayList() } ).add(elapsed)
+  override fun addElapsedTime(task: String, elapsed: Duration) {
+    stats.getOrPut(task, { CopyOnWriteArrayList() } ).add(elapsed)
   }
 
   override fun printAllStatistics(logger: Logger, timeFormatter: TimeFormatter) {
-    stats.keys.sorted().forEach { action -> printStatistics(action, logger, timeFormatter) }
+    stats.keys.sorted().forEach { task -> printStatistics(task, logger, timeFormatter) }
   }
 
-  override fun printStatistics(action: String, logger: Logger, timeFormatter: TimeFormatter) {
-    val actionStats = stats[action]
-    if (actionStats.isNullOrEmpty()) {
-      logger.warn("No statistics found for action '$action'")
+  override fun printStatistics(task: String, logger: Logger, timeFormatter: TimeFormatter) {
+    val taskStats = stats[task]
+    if (taskStats.isNullOrEmpty()) {
+      logger.warn("No statistics found for task '$task'")
     } else {
-      val min = actionStats.minOrNull()!!
-      val max = actionStats.maxOrNull()!!
-      val average = actionStats.map { it.toNanos() }.average().let { Duration.ofNanos(it.toLong()) }
-      val total = actionStats.sumOf { it.toNanos() }.let { Duration.ofNanos(it) }
+      val min = taskStats.minOrNull()!!
+      val max = taskStats.maxOrNull()!!
+      val average = taskStats.map { it.toNanos() }.average().let { Duration.ofNanos(it.toLong()) }
+      val total = taskStats.sumOf { it.toNanos() }.let { Duration.ofNanos(it) }
 
-      logger.info("$action [${actionStats.size}]: min ${timeFormatter.format(min)}, avg ${timeFormatter.format(average)}, max ${timeFormatter.format(max)}, total ${timeFormatter.format(total)}")
+      logger.info("$task [${taskStats.size}]: min ${timeFormatter.format(min)}, avg ${timeFormatter.format(average)}, max ${timeFormatter.format(max)}, total ${timeFormatter.format(total)}")
     }
   }
 

@@ -40,7 +40,7 @@ class KotlinShowcase {
         // returns elapsed time formatted
         val formattedDuration = Stopwatch.formatDuration { myTask() }
 
-        // logs elapsed time to class' slf4j logger in format: "<action> <formatted_duration>"
+        // logs elapsed time to class' slf4j logger in format: "<task> <formatted_duration>"
         Stopwatch.logDuration("My important task") { myTask() } // see console log output
 
         // of course you can also specify the (slf4j) logger to log to
@@ -64,7 +64,7 @@ class KotlinShowcase {
         myTask()
         val formattedDuration = formatDuration.stopAndFormat()
 
-        // logs elapsed time to class' slf4j logger in format: "<action> <formatted_duration>"
+        // logs elapsed time to class' slf4j logger in format: "<task> <formatted_duration>"
         val logDuration = Stopwatch()
         myTask()
         logDuration.stopAndLog("Heavy calculation task") // see console log output

@@ -33,7 +33,7 @@ Static wrapper around Stopwatch:
     // returns elapsed time formatted
     String formattedDuration = Stopwatch.formatDuration(() -> myTask());
 
-    // logs elapsed time to class' slf4j logger in format: "<action> <formatted_duration>"
+    // logs elapsed time to class' slf4j logger in format: "<task> <formatted_duration>"
     Stopwatch.logDuration("My important task", () -> myTask()); // see console log output
 
     // of course you can also specify the (slf4j) logger to log to
@@ -58,7 +58,7 @@ Stopwatch instance methods:
     myTask();
     String formattedDuration = formatDuration.stopAndFormat();
 
-    // logs elapsed time to class' slf4j logger in format: "<action> <formatted_duration>"
+    // logs elapsed time to class' slf4j logger in format: "<task> <formatted_duration>"
     Stopwatch logDuration = new Stopwatch();
     myTask();
     logDuration.stopAndLog("Heavy calculation task"); // see console log output
@@ -89,7 +89,7 @@ Simple usage with wrappers around Stopwatch class:
     // returns elapsed time formatted
     val formattedDuration = Stopwatch.formatDuration { myTask() }
 
-    // logs elapsed time to class' slf4j logger in format: "<action> <formatted_duration>"
+    // logs elapsed time to class' slf4j logger in format: "<task> <formatted_duration>"
     Stopwatch.logDuration("My important task") { myTask() } // see console log output
 
     // of course you can also specify the (slf4j) logger to log to

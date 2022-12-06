@@ -63,22 +63,22 @@ open class Stopwatch @JvmOverloads constructor(
 
         @JvmStatic
         @JvmOverloads
-        fun logDuration(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = DefaultLogger, timeFormatter: TimeFormatter = DefaultTimeFormatter, task: Runnable) {
-            return logDuration(loggedAction, addToStatistics, printStatisticsNow, logger, timeFormatter) { task.run() }
+        fun logDuration(taskName: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = DefaultLogger, timeFormatter: TimeFormatter = DefaultTimeFormatter, task: Runnable) {
+            return logDuration(taskName, addToStatistics, printStatisticsNow, logger, timeFormatter) { task.run() }
         }
 
         @JvmStatic
         @JvmOverloads
-        fun <T> logDuration(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = DefaultLogger, timeFormatter: TimeFormatter = DefaultTimeFormatter, task: Supplier<T>): T {
-            return logDuration(loggedAction, addToStatistics, printStatisticsNow, logger, timeFormatter) { task.get() }
+        fun <T> logDuration(taskName: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = DefaultLogger, timeFormatter: TimeFormatter = DefaultTimeFormatter, task: Supplier<T>): T {
+            return logDuration(taskName, addToStatistics, printStatisticsNow, logger, timeFormatter) { task.get() }
         }
 
-        inline fun <T> logDuration(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = DefaultLogger, timeFormatter: TimeFormatter = DefaultTimeFormatter, task: () -> T): T {
+        inline fun <T> logDuration(taskName: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = DefaultLogger, timeFormatter: TimeFormatter = DefaultTimeFormatter, task: () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
 
-            stopwatch.stopAndLog(loggedAction, addToStatistics, printStatisticsNow, logger, timeFormatter)
+            stopwatch.stopAndLog(taskName, addToStatistics, printStatisticsNow, logger, timeFormatter)
 
             return result
         }
@@ -92,12 +92,12 @@ open class Stopwatch @JvmOverloads constructor(
             return stopwatch.stop()
         }
 
-        suspend inline fun <T> logDurationSuspendable(loggedAction: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = DefaultLogger, timeFormatter: TimeFormatter = DefaultTimeFormatter, task: suspend () -> T): T {
+        suspend inline fun <T> logDurationSuspendable(taskName: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = DefaultLogger, timeFormatter: TimeFormatter = DefaultTimeFormatter, task: suspend () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
 
-            stopwatch.stopAndLog(loggedAction, addToStatistics, printStatisticsNow, logger, timeFormatter)
+            stopwatch.stopAndLog(taskName, addToStatistics, printStatisticsNow, logger, timeFormatter)
 
             return result
         }
@@ -105,39 +105,39 @@ open class Stopwatch @JvmOverloads constructor(
 
         @JvmStatic
         @JvmOverloads
-        fun <T> addDurationToStatistics(loggedAction: String, printStatisticsNow: Boolean = false, statisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultStatisticsPrinter, task: Runnable) {
-            return addDurationToStatistics(loggedAction, printStatisticsNow, statisticsPrinter) { task.run() }
+        fun <T> addDurationToStatistics(taskName: String, printStatisticsNow: Boolean = false, statisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultStatisticsPrinter, task: Runnable) {
+            return addDurationToStatistics(taskName, printStatisticsNow, statisticsPrinter) { task.run() }
         }
 
         @JvmStatic
         @JvmOverloads
-        fun <T> addDurationToStatistics(loggedAction: String, printStatisticsNow: Boolean = false, statisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultStatisticsPrinter, task: Supplier<T>): T {
-            return addDurationToStatistics(loggedAction, printStatisticsNow, statisticsPrinter) { task.get() }
+        fun <T> addDurationToStatistics(taskName: String, printStatisticsNow: Boolean = false, statisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultStatisticsPrinter, task: Supplier<T>): T {
+            return addDurationToStatistics(taskName, printStatisticsNow, statisticsPrinter) { task.get() }
         }
 
-        inline fun <T> addDurationToStatistics(loggedAction: String, printStatisticsNow: Boolean = false, statisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultStatisticsPrinter, task: () -> T): T {
+        inline fun <T> addDurationToStatistics(taskName: String, printStatisticsNow: Boolean = false, statisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultStatisticsPrinter, task: () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
 
-            stopwatch.stopAndAddToStatistics(loggedAction, printStatisticsNow, statisticsPrinter)
+            stopwatch.stopAndAddToStatistics(taskName, printStatisticsNow, statisticsPrinter)
 
             return result
         }
 
-        suspend inline fun <T> addDurationToStatisticsAsync(loggedAction: String, printStatisticsNow: Boolean = false, statisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultStatisticsPrinter, task: suspend () -> T): T {
+        suspend inline fun <T> addDurationToStatisticsAsync(taskName: String, printStatisticsNow: Boolean = false, statisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultStatisticsPrinter, task: suspend () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
 
-            stopwatch.stopAndAddToStatistics(loggedAction, printStatisticsNow, statisticsPrinter)
+            stopwatch.stopAndAddToStatistics(taskName, printStatisticsNow, statisticsPrinter)
 
             return result
         }
 
         @JvmOverloads
-        fun printStatistics(action: String, logger: Logger = DefaultLogger, timeFormatter: TimeFormatter = DefaultTimeFormatter) {
-            DefaultStatisticsPrinter.printStatistics(action, logger, timeFormatter)
+        fun printStatistics(task: String, logger: Logger = DefaultLogger, timeFormatter: TimeFormatter = DefaultTimeFormatter) {
+            DefaultStatisticsPrinter.printStatistics(task, logger, timeFormatter)
         }
     }
 
@@ -216,13 +216,13 @@ open class Stopwatch @JvmOverloads constructor(
     }
 
     /**
-     * Stops the stopwatch and logs the elapsed time formatted to [logger] in format: "<action> <formatted_duration>".
+     * Stops the stopwatch and logs the elapsed time formatted to [logger] in format: "<task> <formatted_duration>".
      */
     @JvmOverloads
-    open fun stopAndLog(action: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter): Duration {
+    open fun stopAndLog(task: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter): Duration {
         stop()
 
-        logElapsedTime(action, addToStatistics, printStatisticsNow, logger, timeFormatter)
+        logElapsedTime(task, addToStatistics, printStatisticsNow, logger, timeFormatter)
 
         return elapsed
     }
@@ -250,40 +250,40 @@ open class Stopwatch @JvmOverloads constructor(
     }
 
     /**
-     * Logs the elapsed time formatted to [logger] in format: "<action> <formatted_duration>".
+     * Logs the elapsed time formatted to [logger] in format: "<task> <formatted_duration>".
      */
     @JvmOverloads
-    open fun logElapsedTime(action: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter, statisticsPrinter: ElapsedTimeStatisticsPrinter = defaultStatisticsPrinter) {
+    open fun logElapsedTime(task: String, addToStatistics: Boolean = false, printStatisticsNow: Boolean = false, logger: Logger = defaultLogger, timeFormatter: TimeFormatter = defaultTimeFormatter, statisticsPrinter: ElapsedTimeStatisticsPrinter = defaultStatisticsPrinter) {
         val formattedElapsedTime = formatElapsedTime(timeFormatter)
 
-        logger.info("$action took $formattedElapsedTime")
+        logger.info("$task took $formattedElapsedTime")
 
         if (addToStatistics) {
-            addToStatistics(action, elapsed)
+            addToStatistics(task, elapsed)
         }
 
         if (printStatisticsNow) {
-            printStatistics(action, logger, timeFormatter)
+            printStatistics(task, logger, timeFormatter)
         }
     }
 
-    open fun stopAndAddToStatistics(action: String, printStatisticsNow: Boolean = false, statisticsPrinter: ElapsedTimeStatisticsPrinter = defaultStatisticsPrinter) {
+    open fun stopAndAddToStatistics(task: String, printStatisticsNow: Boolean = false, statisticsPrinter: ElapsedTimeStatisticsPrinter = defaultStatisticsPrinter) {
         val elapsed = stop()
 
-        addToStatistics(action, elapsed, statisticsPrinter)
+        addToStatistics(task, elapsed, statisticsPrinter)
 
         if (printStatisticsNow) {
-            printStatistics(action, statisticsPrinter = statisticsPrinter)
+            printStatistics(task, statisticsPrinter = statisticsPrinter)
         }
     }
 
-    protected open fun addToStatistics(action: String, elapsed: Duration, statisticsPrinter: ElapsedTimeStatisticsPrinter = defaultStatisticsPrinter) {
-        statisticsPrinter.addElapsedTime(action, elapsed)
+    protected open fun addToStatistics(task: String, elapsed: Duration, statisticsPrinter: ElapsedTimeStatisticsPrinter = defaultStatisticsPrinter) {
+        statisticsPrinter.addElapsedTime(task, elapsed)
     }
 
     @JvmOverloads
-    open fun printStatistics(action: String, statisticsPrinter: ElapsedTimeStatisticsPrinter = defaultStatisticsPrinter) {
-        statisticsPrinter.printStatistics(action)
+    open fun printStatistics(task: String, statisticsPrinter: ElapsedTimeStatisticsPrinter = defaultStatisticsPrinter) {
+        statisticsPrinter.printStatistics(task)
     }
 
 
