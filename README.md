@@ -1,4 +1,5 @@
 # Stopwatch
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.codinux.util/stopwatch/badge.svg)](https://maven-badges.herokuapp.com/maven-central/net.codinux.util/stopwatch)
 
 A simple stopwatch to easily measure and log durations, that's especially easy to use in Kotlin.
 
@@ -7,7 +8,7 @@ A simple stopwatch to easily measure and log durations, that's especially easy t
 ### Gradle
 
 ```
-implementation 'net.codinux.util:stopwatch:1.0.0'
+implementation 'net.codinux.util:stopwatch:1.0.3'
 ```
 
 ### Maven
@@ -16,7 +17,7 @@ implementation 'net.codinux.util:stopwatch:1.0.0'
 <dependency>
     <groupId>net.codinux.util</groupId>
     <artifactId>stopwatch</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
