@@ -5,14 +5,14 @@ import net.codinux.util.output.Slf4jMessagePrinter
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
+
+fun main() {
+    KotlinShowcase().runShowcase()
+}
+
 class KotlinShowcase {
 
     companion object {
-
-        @JvmStatic
-        fun main(args: Array<String>) {
-            KotlinShowcase().runShowcase()
-        }
 
         private fun myTask() {
             wait(123, TimeUnit.MILLISECONDS)
