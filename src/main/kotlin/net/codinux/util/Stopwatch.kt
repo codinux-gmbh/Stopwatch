@@ -16,10 +16,19 @@ open class Stopwatch @JvmOverloads constructor(
 
     companion object {
 
+        @JvmStatic
+        @get:JvmName("getGlobalDefaultTimeFormatter")
+        @set:JvmName("setGlobalDefaultTimeFormatter")
         var DefaultTimeFormatter: TimeFormatter = DefaultTimeFormatter()
 
+        @JvmStatic
+        @get:JvmName("getGlobalDefaultLogger")
+        @set:JvmName("setGlobalDefaultLogger")
         var DefaultLogger: Logger = LoggerFactory.getLogger(Stopwatch::class.java)
 
+        @JvmStatic
+        @get:JvmName("getGlobalDefaultStatisticsPrinter")
+        @set:JvmName("setGlobalDefaultStatisticsPrinter")
         var DefaultStatisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultElapsedTimeStatisticsPrinter(DefaultLogger, DefaultTimeFormatter)
 
 
