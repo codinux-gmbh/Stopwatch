@@ -1,8 +1,14 @@
 # Stopwatch
 
-Simple stopwatch to measure and format durations.
+A simple stopwatch to easily measure and log durations, that's especially easy to use in Kotlin.
 
 ## Setup
+
+### Gradle
+
+```
+implementation 'net.codinux.util:stopwatch:1.0.0'
+```
 
 ### Maven
 
@@ -14,14 +20,60 @@ Simple stopwatch to measure and format durations.
 </dependency>
 ```
 
-### Gradle
-
-```
-implementation 'net.codinux.util:stopwatch:1.0.0'
-```
-
 
 ## Usage
+
+
+### Kotlin
+
+Simple usage with wrappers around Stopwatch class:
+```kotlin
+        // returns the elapsed time as Duration instance
+        val measuredDuration = Stopwatch.measureDuration { myTask() }
+        
+        // returns elapsed time as formatted string
+        val formattedDuration = Stopwatch.formatDuration { myTask() }
+        
+        // logs elapsed time to class' slf4j logger in format: "<task> took <formatted_duration>"
+        Stopwatch.logDuration("My important task") { myTask() } // see console log output
+        
+        // of course you can also specify the (slf4j) logger to log to
+        Stopwatch.logDuration("Other task", printer = Slf4jMessagePrinter("Task logger")) { myTask() }
+        
+        // logs elapsed time and returns task's result
+        val heavyCalculationResult = Stopwatch.logDuration("Task that returns a result") {
+          myTask() // mimic heavy calculation
+          "Task result" // return result to caller, heavyCalculationResult will then be `"Task result"`
+        }
+```
+
+It is also capable to print elapsed time statistics like min, max and average time to a task:
+```kotlin
+        // adds elapsed time to task's statistics and prints it right away
+        (1..3).forEach {
+          Stopwatch.logDuration("My important task", addToStatistics = true, printStatisticsNow = true) { myTask() }
+        }
+        // logs something like this:
+        // [main] INFO net.codinux.util.Stopwatch - My important task took 500.179 ms
+        // [main] INFO net.codinux.util.Stopwatch - My important task [1]: min 500.179 ms, avg 500.179 ms, max 500.179 ms, total 500.179 ms
+        // [main] INFO net.codinux.util.Stopwatch - My important task took 500.161 ms
+        // [main] INFO net.codinux.util.Stopwatch - My important task [2]: min 500.161 ms, avg 500.170 ms, max 500.179 ms, total 01.000 s
+        // [main] INFO net.codinux.util.Stopwatch - My important task took 500.116 ms
+        // [main] INFO net.codinux.util.Stopwatch - My important task [3]: min 500.116 ms, avg 500.152 ms, max 500.179 ms, total 01.500 s
+        
+        // you can also log the statistics at a defined time:
+        (1..10).forEach {
+          // only adds the elapsed times to statistics, but doesn't print it
+          Stopwatch.addDurationToStatistics("My heavy task") { myTask() }
+        }
+        Stopwatch.printStatistics("My heavy task") // now print statistics for this task at any time you like. Logs something like this:
+        // [main] INFO net.codinux.util.Stopwatch - My heavy task [10]: min 500.126 ms, avg 500.182 ms, max 500.319 ms, total 05.001 s
+        
+        // statistics by default are logged when the JVM shuts down. This looks something like this:
+        // [Shutdown Hook] INFO net.codinux.util.Stopwatch - My heavy task [10]: min 500.126 ms, avg 500.182 ms, max 500.319 ms, total 05.001 s
+```
+
+Also see file [KotlinShowcase](src/test/kotlin/net/codinux/util/showcase/KotlinShowcase.kt).
 
 ### Java
 
@@ -77,32 +129,6 @@ Stopwatch instance methods:
 ```
 
 Also see file [JavaShowcase](src/test/java/net/codinux/util/showcase/JavaShowcase.java).
-
-
-### Kotlin
-
-Simple usage with wrappers around Stopwatch class:
-```kotlin
-    // returns the elapsed time
-    val measuredDuration = Stopwatch.measureDuration { myTask() }
-
-    // returns elapsed time formatted
-    val formattedDuration = Stopwatch.formatDuration { myTask() }
-
-    // logs elapsed time to class' slf4j logger in format: "<task> <formatted_duration>"
-    Stopwatch.logDuration("My important task") { myTask() } // see console log output
-
-    // of course you can also specify the (slf4j) logger to log to
-    Stopwatch.logDuration("Other task", LoggerFactory.getLogger("Task logger")) { myTask() }
-
-    // logs elapsed time and returns task's result
-    val heavyCalculationResult = Stopwatch.logDuration("Task that returns a result") {
-        myTask() // mimic heavy calculation
-        123L // return result to caller
-    }
-```
-
-Also see file [KotlinShowcase](src/test/kotlin/net/codinux/util/showcase/KotlinShowcase.kt).
 
 
 # License
