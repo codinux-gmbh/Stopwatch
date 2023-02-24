@@ -37,7 +37,7 @@ open class DefaultElapsedTimeStatisticsPrinter(
       val min = taskStats.minOrNull()!!
       val max = taskStats.maxOrNull()!!
       val average = taskStats.map { it.toNanos() }.average().let { Duration.ofNanos(it.toLong()) }
-      val total = taskStats.sumOf { it.toNanos() }.let { Duration.ofNanos(it) }
+      val total = taskStats.fold(Duration.ZERO) { acc, duration -> acc + duration }
 
       printer.info("$task [${taskStats.size}]: min ${timeFormatter.format(min)}, avg ${timeFormatter.format(average)}, max ${timeFormatter.format(max)}, total ${timeFormatter.format(total)}")
     }
