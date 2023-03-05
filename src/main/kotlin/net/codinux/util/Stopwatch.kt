@@ -37,7 +37,7 @@ open class Stopwatch constructor(
 
 
         @JvmStatic
-        inline fun measureDuration(task: Runnable): Duration {
+        fun measureDuration(task: Runnable): Duration {
             return measureDuration { task.run() }
         }
 
@@ -52,7 +52,7 @@ open class Stopwatch constructor(
 
 
         @JvmStatic
-        inline fun formatDuration(task: Runnable): String {
+        fun formatDuration(task: Runnable): String {
             return formatDuration { task.run() }
         }
 
@@ -68,11 +68,11 @@ open class Stopwatch constructor(
 
         @JvmStatic
         // overload for programming languages that don't support default parameters
-        inline fun logDuration(taskName: String, task: Runnable) =
+        fun logDuration(taskName: String, task: Runnable) =
             logDuration(taskName, DefaultAddToStatistics, DefaultPrintStatisticsNow, task)
 
         @JvmStatic
-        inline fun logDuration(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Runnable) =
+        fun logDuration(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Runnable) =
             logDuration(taskName, addToStatistics, printStatisticsNow) { task.run() }
 
         @JvmStatic
@@ -98,7 +98,7 @@ open class Stopwatch constructor(
          */
         @JvmStatic
         // overload for programming languages that don't support default parameters
-        inline fun measureAndToStatistics(taskName: String, task: Runnable) =
+        fun measureAndToStatistics(taskName: String, task: Runnable) =
             measureAndToStatistics(taskName, DefaultPrintStatisticsNow, task)
 
         /**
@@ -106,7 +106,7 @@ open class Stopwatch constructor(
          * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
          */
         @JvmStatic
-        inline fun measureAndToStatistics(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Runnable) =
+        fun measureAndToStatistics(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Runnable) =
             measureAndToStatistics(taskName, printStatisticsNow) { task.run() }
 
         /**
