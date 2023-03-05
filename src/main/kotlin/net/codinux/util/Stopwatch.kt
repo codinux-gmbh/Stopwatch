@@ -92,25 +92,6 @@ open class Stopwatch constructor(
         }
 
 
-        suspend inline fun measureDurationAsync(task: suspend () -> Unit): Duration {
-            val stopwatch = Stopwatch()
-
-            task()
-
-            return stopwatch.stop()
-        }
-
-        suspend inline fun <T> logDurationAsync(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: suspend () -> T): T {
-            val stopwatch = Stopwatch()
-
-            val result = task()
-
-            stopwatch.stopAndLog(taskName, addToStatistics, printStatisticsNow)
-
-            return result
-        }
-
-
         /**
          * Adds the elapsed time only to [ElapsedTimeStatisticsPrinter] but doesn't print it.
          * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
@@ -143,20 +124,6 @@ open class Stopwatch constructor(
          */
         @JvmStatic
         inline fun <T> measureAndToStatistics(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: () -> T): T {
-            val stopwatch = Stopwatch()
-
-            val result = task()
-
-            stopwatch.stopAndAddToStatistics(taskName, printStatisticsNow)
-
-            return result
-        }
-
-        /**
-         * Adds the elapsed time only to [ElapsedTimeStatisticsPrinter] but doesn't print it.
-         * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
-         */
-        suspend inline fun <T> measureAndToStatisticsAsync(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: suspend () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
