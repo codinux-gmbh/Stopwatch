@@ -1,6 +1,6 @@
 package net.codinux.util.statistics
 
-import net.codinux.util.TimeFormatter
+import net.codinux.util.formatter.TimeFormatter
 import net.codinux.util.output.MessagePrinter
 import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
