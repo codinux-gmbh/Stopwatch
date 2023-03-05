@@ -2,6 +2,8 @@ package net.codinux.util
 
 import net.codinux.util.output.MessagePrinter
 import net.codinux.util.output.Slf4jOrSystemOutMessagePrinter
+import net.codinux.util.statistics.DefaultElapsedTimeStatisticsPrinter
+import net.codinux.util.statistics.ElapsedTimeStatisticsPrinter
 import java.time.Duration
 import java.util.concurrent.TimeUnit
 

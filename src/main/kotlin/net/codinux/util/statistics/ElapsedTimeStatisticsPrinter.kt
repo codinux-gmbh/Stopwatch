@@ -1,4 +1,4 @@
-package net.codinux.util
+package net.codinux.util.statistics
 
 import java.time.Duration
 
