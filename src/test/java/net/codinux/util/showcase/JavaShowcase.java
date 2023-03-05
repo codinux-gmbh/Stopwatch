@@ -19,6 +19,11 @@ public class JavaShowcase {
         wait(123, TimeUnit.MILLISECONDS);
     }
 
+    private static long myTaskWithResult() {
+        myTask();
+        return 123L;
+    }
+
     private static void wait(long time, TimeUnit unit) {
         try {
             unit.sleep(time);
@@ -48,8 +53,7 @@ public class JavaShowcase {
 
         // logs elapsed time and returns task's result
         long heavyCalculationResult = Stopwatch.logDuration("Task that returns a result", () -> {
-            myTask(); // mimic heavy calculation
-            return 123L; // return result to caller
+            return myTaskWithResult(); // mimic heavy calculation that returns a result to caller
         });
     }
 

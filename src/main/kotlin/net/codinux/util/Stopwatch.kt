@@ -4,7 +4,6 @@ import net.codinux.util.output.MessagePrinter
 import net.codinux.util.output.Slf4jOrSystemOutMessagePrinter
 import java.time.Duration
 import java.util.concurrent.TimeUnit
-import java.util.function.Supplier
 
 
 open class Stopwatch constructor(
@@ -34,10 +33,11 @@ open class Stopwatch constructor(
 
 
         @JvmStatic
-        fun measureDuration(task: Runnable): Duration {
+        inline fun measureDuration(task: Runnable): Duration {
             return measureDuration { task.run() }
         }
 
+        @JvmStatic
         inline fun measureDuration(task: () -> Unit): Duration {
             val stopwatch = Stopwatch()
 
@@ -48,10 +48,11 @@ open class Stopwatch constructor(
 
 
         @JvmStatic
-        fun formatDuration(task: Runnable): String {
+        inline fun formatDuration(task: Runnable): String {
             return formatDuration { task.run() }
         }
 
+        @JvmStatic
         inline fun formatDuration(task: () -> Unit): String {
             val stopwatch = Stopwatch()
 
@@ -63,22 +64,19 @@ open class Stopwatch constructor(
 
         @JvmStatic
         // overload for programming languages that don't support default parameters
-        fun logDuration(taskName: String, task: Runnable) =
+        inline fun logDuration(taskName: String, task: Runnable) =
             logDuration(taskName, DefaultAddToStatistics, DefaultPrintStatisticsNow, task)
 
         @JvmStatic
-        fun logDuration(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Runnable) =
+        inline fun logDuration(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Runnable) =
             logDuration(taskName, addToStatistics, printStatisticsNow) { task.run() }
 
         @JvmStatic
         // overload for programming languages that don't support default parameters
-        fun <T> logDuration(taskName: String, task: Supplier<T>) =
+        inline fun <T> logDuration(taskName: String, task: () -> T): T =
             logDuration(taskName, DefaultAddToStatistics, DefaultPrintStatisticsNow, task)
 
         @JvmStatic
-        fun <T> logDuration(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Supplier<T>) =
-            logDuration(taskName, addToStatistics, printStatisticsNow) { task.get() }
-
         inline fun <T> logDuration(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: () -> T): T {
             val stopwatch = Stopwatch()
 
@@ -115,7 +113,7 @@ open class Stopwatch constructor(
          */
         @JvmStatic
         // overload for programming languages that don't support default parameters
-        fun addDurationToStatistics(taskName: String, task: Runnable) =
+        inline fun addDurationToStatistics(taskName: String, task: Runnable) =
             addDurationToStatistics(taskName, DefaultPrintStatisticsNow, task)
 
         /**
@@ -123,7 +121,7 @@ open class Stopwatch constructor(
          * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
          */
         @JvmStatic
-        fun addDurationToStatistics(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Runnable) =
+        inline fun addDurationToStatistics(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Runnable) =
             addDurationToStatistics(taskName, printStatisticsNow) { task.run() }
 
         /**
@@ -132,7 +130,7 @@ open class Stopwatch constructor(
          */
         @JvmStatic
         // overload for programming languages that don't support default parameters
-        fun <T> addDurationToStatistics(taskName: String, task: Supplier<T>) =
+        inline fun <T> addDurationToStatistics(taskName: String, task: () -> T) =
             addDurationToStatistics(taskName, DefaultPrintStatisticsNow, task)
 
         /**
@@ -140,13 +138,6 @@ open class Stopwatch constructor(
          * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
          */
         @JvmStatic
-        fun <T> addDurationToStatistics(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Supplier<T>) =
-            addDurationToStatistics(taskName, printStatisticsNow) { task.get() }
-
-        /**
-         * Adds the elapsed time only to [ElapsedTimeStatisticsPrinter] but doesn't print it.
-         * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
-         */
         inline fun <T> addDurationToStatistics(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: () -> T): T {
             val stopwatch = Stopwatch()
 
