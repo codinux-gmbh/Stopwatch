@@ -113,16 +113,16 @@ open class Stopwatch constructor(
          */
         @JvmStatic
         // overload for programming languages that don't support default parameters
-        inline fun addDurationToStatistics(taskName: String, task: Runnable) =
-            addDurationToStatistics(taskName, DefaultPrintStatisticsNow, task)
+        inline fun measureAndToStatistics(taskName: String, task: Runnable) =
+            measureAndToStatistics(taskName, DefaultPrintStatisticsNow, task)
 
         /**
          * Adds the elapsed time only to [ElapsedTimeStatisticsPrinter] but doesn't print it.
          * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
          */
         @JvmStatic
-        inline fun addDurationToStatistics(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Runnable) =
-            addDurationToStatistics(taskName, printStatisticsNow) { task.run() }
+        inline fun measureAndToStatistics(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Runnable) =
+            measureAndToStatistics(taskName, printStatisticsNow) { task.run() }
 
         /**
          * Adds the elapsed time only to [ElapsedTimeStatisticsPrinter] but doesn't print it.
@@ -130,15 +130,15 @@ open class Stopwatch constructor(
          */
         @JvmStatic
         // overload for programming languages that don't support default parameters
-        inline fun <T> addDurationToStatistics(taskName: String, task: () -> T) =
-            addDurationToStatistics(taskName, DefaultPrintStatisticsNow, task)
+        inline fun <T> measureAndToStatistics(taskName: String, task: () -> T) =
+            measureAndToStatistics(taskName, DefaultPrintStatisticsNow, task)
 
         /**
          * Adds the elapsed time only to [ElapsedTimeStatisticsPrinter] but doesn't print it.
          * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
          */
         @JvmStatic
-        inline fun <T> addDurationToStatistics(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: () -> T): T {
+        inline fun <T> measureAndToStatistics(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
@@ -152,7 +152,7 @@ open class Stopwatch constructor(
          * Adds the elapsed time only to [ElapsedTimeStatisticsPrinter] but doesn't print it.
          * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
          */
-        suspend inline fun <T> addDurationToStatisticsAsync(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: suspend () -> T): T {
+        suspend inline fun <T> measureAndToStatisticsAsync(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: suspend () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()

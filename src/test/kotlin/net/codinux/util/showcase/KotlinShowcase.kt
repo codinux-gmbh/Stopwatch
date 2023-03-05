@@ -72,7 +72,7 @@ class KotlinShowcase {
         // you can also log the statistics at a defined time:
         (1..10).forEach {
             // only adds the elapsed times to statistics, but doesn't print it
-            Stopwatch.addDurationToStatistics("My heavy task") { myTask() }
+            Stopwatch.measureAndToStatistics("My heavy task") { myTask() }
         }
         Stopwatch.printStatistics("My heavy task") // now print statistics for this task at any time you like. Logs something like this:
         // [main] INFO net.codinux.util.Stopwatch - My heavy task [10]: min 500.126 ms, avg 500.182 ms, max 500.319 ms, total 05.001 s
