@@ -42,8 +42,9 @@ public class JavaShowcase {
         // logs elapsed time to class' slf4j logger in format: "<task> <formatted_duration>"
         Stopwatch.logDuration("My important task", () -> myTask()); // see console log output
 
-        // of course you can also specify the (slf4j) logger to log to
-        Stopwatch.logDuration("Other task", false, false, new Slf4jMessagePrinter("Task logger"), () -> myTask());
+        // of course you can also customize the (slf4j) logger to log to
+        Stopwatch.setDefaultPrinter(new Slf4jMessagePrinter("Task logger"));
+        Stopwatch.logDuration("Other task", false, false, () -> myTask());
 
         // logs elapsed time and returns task's result
         long heavyCalculationResult = Stopwatch.logDuration("Task that returns a result", () -> {

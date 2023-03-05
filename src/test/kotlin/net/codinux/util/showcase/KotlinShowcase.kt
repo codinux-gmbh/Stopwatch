@@ -45,8 +45,9 @@ class KotlinShowcase {
         // logs elapsed time to class' slf4j logger in format: "<task> took <formatted_duration>"
         Stopwatch.logDuration("My important task") { myTask() } // see console log output
 
-        // of course you can also specify the (slf4j) logger to log to
-        Stopwatch.logDuration("Other task", printer = Slf4jMessagePrinter("Task logger")) { myTask() }
+        // of course you can also customize the (slf4j) logger to log to
+        Stopwatch.DefaultPrinter = Slf4jMessagePrinter("Task logger")
+        Stopwatch.logDuration("Other task") { myTask() }
 
         // logs elapsed time and returns task's result
         val heavyCalculationResult = Stopwatch.logDuration("Task that returns a result") {

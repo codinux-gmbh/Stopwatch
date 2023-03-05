@@ -8,8 +8,8 @@ import kotlin.concurrent.thread
 
 
 open class DefaultElapsedTimeStatisticsPrinter(
-  override val defaultPrinter: MessagePrinter,
-  override val defaultTimeFormatter: TimeFormatter
+  private val printer: MessagePrinter,
+  private val timeFormatter: TimeFormatter
 ) : ElapsedTimeStatisticsPrinter {
 
   protected open val stats: MutableMap<String, MutableList<Duration>> = ConcurrentHashMap()
@@ -25,11 +25,11 @@ open class DefaultElapsedTimeStatisticsPrinter(
     stats.getOrPut(task, { CopyOnWriteArrayList() } ).add(elapsed)
   }
 
-  override fun printAllStatistics(printer: MessagePrinter, timeFormatter: TimeFormatter) {
-    stats.keys.sorted().forEach { task -> printStatistics(task, printer, timeFormatter) }
+  override fun printAllStatistics() {
+    stats.keys.sorted().forEach { task -> printStatistics(task) }
   }
 
-  override fun printStatistics(task: String, printer: MessagePrinter, timeFormatter: TimeFormatter) {
+  override fun printStatistics(task: String) {
     val taskStats = stats[task]
     if (taskStats.isNullOrEmpty()) {
       printer.warn("No statistics found for task '$task'")
