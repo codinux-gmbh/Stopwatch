@@ -1,14 +1,15 @@
 # Stopwatch
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.codinux.util/stopwatch/badge.svg)](https://maven-badges.herokuapp.com/maven-central/net.codinux.util/stopwatch)
 
-A simple stopwatch to easily measure and log durations, that's especially easy to use in Kotlin.
+Zero dependency Stopwatch for Kotlin Multiplatform (JVM, Android, iOS, Node.js, JS Browser, Linux, Windows, macOS) 
+with a lot of convenience functions to easily measure and log durations and print statistics of measured durations.
 
 ## Setup
 
 ### Gradle
 
 ```
-implementation 'net.codinux.util:stopwatch:1.0.3'
+implementation("net.codinux.util:stopwatch:1.0.3")
 ```
 
 ### Maven
@@ -39,7 +40,8 @@ Simple usage with wrappers around Stopwatch class:
         Stopwatch.logDuration("My important task") { myTask() } // see console log output
         
         // of course you can also specify the (slf4j) logger to log to
-        Stopwatch.logDuration("Other task", printer = Slf4jMessagePrinter("Task logger")) { myTask() }
+        Stopwatch.DefaultPrinter = Slf4jMessagePrinter("Task logger")
+        Stopwatch.logDuration("Other task") { myTask() }
         
         // logs elapsed time and returns task's result
         val heavyCalculationResult = Stopwatch.logDuration("Task that returns a result") {
@@ -48,7 +50,7 @@ Simple usage with wrappers around Stopwatch class:
         }
 ```
 
-It is also capable to print elapsed time statistics like min, max and average time to a task:
+Print statistics of a task's measured durations like min, max and average time:
 ```kotlin
         // adds elapsed time to task's statistics and prints it right away
         (1..3).forEach {
