@@ -11,6 +11,14 @@ repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+    withJavadocJar()
+    withSourcesJar()
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
