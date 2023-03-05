@@ -90,7 +90,7 @@ open class Stopwatch constructor(
         }
 
 
-        suspend inline fun measureDurationSuspendable(task: suspend () -> Unit): Duration {
+        suspend inline fun measureDurationAsync(task: suspend () -> Unit): Duration {
             val stopwatch = Stopwatch()
 
             task()
@@ -98,7 +98,7 @@ open class Stopwatch constructor(
             return stopwatch.stop()
         }
 
-        suspend inline fun <T> logDurationSuspendable(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: suspend () -> T): T {
+        suspend inline fun <T> logDurationAsync(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: suspend () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
