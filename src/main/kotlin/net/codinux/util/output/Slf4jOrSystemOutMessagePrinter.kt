@@ -27,12 +27,4 @@ open class Slf4jOrSystemOutMessagePrinter : MessagePrinter {
     }
   }
 
-  override fun warn(message: String) {
-    if (isSlf4jOnClasspath) {
-      slf4jPrinter.warn(message)
-    } else {
-      systemOutPrinter.warn(message)
-    }
-  }
-
 }

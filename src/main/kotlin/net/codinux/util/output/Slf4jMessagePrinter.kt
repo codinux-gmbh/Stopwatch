@@ -19,8 +19,4 @@ open class Slf4jMessagePrinter(protected open val logger: Logger) : MessagePrint
     logger.info(message)
   }
 
-  override fun warn(message: String) {
-    logger.warn(message)
-  }
-
 }

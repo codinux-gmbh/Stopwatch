@@ -9,6 +9,4 @@ interface MessagePrinter {
 
   fun info(message: String)
 
-  fun warn(message: String)
-
 }

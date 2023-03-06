@@ -10,8 +10,4 @@ open class SystemOutMessagePrinter : MessagePrinter {
     println(message)
   }
 
-  override fun warn(message: String) {
-    System.err.println(message)
-  }
-
 }

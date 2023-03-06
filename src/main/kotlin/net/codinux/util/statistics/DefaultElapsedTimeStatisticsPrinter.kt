@@ -30,7 +30,6 @@ open class DefaultElapsedTimeStatisticsPrinter(
     val taskStats = stats[task]
 
     return if (taskStats.isNullOrEmpty()) {
-      printer.warn("No statistics found for task '$task'")
       null
     } else {
       ArrayList(taskStats) // don't pass mutable state to the outside
