@@ -3,7 +3,7 @@ package net.codinux.util
 import net.codinux.util.formatter.DefaultTimeFormatter
 import net.codinux.util.formatter.TimeFormatter
 import net.codinux.util.output.MessagePrinter
-import net.codinux.util.output.Slf4jOrSystemOutMessagePrinter
+import net.codinux.util.output.Slf4jOrConsoleMessagePrinter
 import net.codinux.util.statistics.DefaultElapsedTimeStatisticsPrinter
 import net.codinux.util.statistics.ElapsedTimeStatisticsPrinter
 import java.time.Duration
@@ -26,7 +26,7 @@ open class Stopwatch constructor(
         var DefaultTimeFormatter: TimeFormatter = DefaultTimeFormatter()
 
         @JvmStatic
-        var DefaultPrinter: MessagePrinter = Slf4jOrSystemOutMessagePrinter()
+        var DefaultPrinter: MessagePrinter = Slf4jOrConsoleMessagePrinter()
 
         @JvmStatic
         var DefaultStatisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultElapsedTimeStatisticsPrinter(DefaultPrinter, DefaultTimeFormatter)
