@@ -2,9 +2,9 @@ package net.codinux.util.output
 
 
 /**
- * Prints elapsed messages to `System.out`.
+ * Logs messages to stdout.
  */
-open class ConsoleMessagePrinter : MessagePrinter {
+open class ConsoleLogger : MessageLogger {
 
   override fun info(message: String) {
     println(message)

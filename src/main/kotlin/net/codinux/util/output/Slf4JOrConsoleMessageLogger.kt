@@ -6,7 +6,7 @@ import net.codinux.util.Stopwatch
 /**
  * Uses slf4j if it's on the classpath, System.out otherwise.
  */
-open class Slf4jOrConsoleMessagePrinter : MessagePrinter {
+open class Slf4JOrConsoleMessageLogger : MessageLogger {
 
   protected open val isSlf4jOnClasspath = try {
     Class.forName("org.slf4j.Logger")
@@ -15,15 +15,15 @@ open class Slf4jOrConsoleMessagePrinter : MessagePrinter {
     false
   }
 
-  protected open val slf4jPrinter by lazy { Slf4jMessagePrinter(Stopwatch::class.java) }
+  protected open val slf4jLogger by lazy { Slf4jLogger(Stopwatch::class.java) }
 
-  protected open val consolePrinter by lazy { ConsoleMessagePrinter() }
+  protected open val consoleLogger by lazy { ConsoleLogger() }
 
   override fun info(message: String) {
     if (isSlf4jOnClasspath) {
-      slf4jPrinter.info(message)
+      slf4jLogger.info(message)
     } else {
-      consolePrinter.info(message)
+      consoleLogger.info(message)
     }
   }
 

@@ -2,8 +2,8 @@ package net.codinux.util
 
 import net.codinux.util.formatter.DefaultTimeFormatter
 import net.codinux.util.formatter.TimeFormatter
-import net.codinux.util.output.MessagePrinter
-import net.codinux.util.output.Slf4jOrConsoleMessagePrinter
+import net.codinux.util.output.MessageLogger
+import net.codinux.util.output.Slf4JOrConsoleMessageLogger
 import net.codinux.util.statistics.DefaultTaskStatisticsCollector
 import net.codinux.util.statistics.TaskStatisticsCollector
 import java.time.Duration
@@ -12,13 +12,13 @@ import java.util.concurrent.TimeUnit
 
 open class Stopwatch constructor(
     createStarted: Boolean = true,
-    protected open val printer: MessagePrinter = DefaultPrinter,
+    protected open val logger: MessageLogger = DefaultLogger,
     protected open val timeFormatter: TimeFormatter = DefaultTimeFormatter,
     protected open val statisticsCollector: TaskStatisticsCollector = DefaultStatisticsCollector
 ) {
 
     // overload for programming languages that don't support default parameters
-    constructor(createStarted: Boolean) : this(createStarted, DefaultPrinter)
+    constructor(createStarted: Boolean) : this(createStarted, DefaultLogger)
 
     companion object {
 
@@ -26,14 +26,14 @@ open class Stopwatch constructor(
         var DefaultTimeFormatter: TimeFormatter = DefaultTimeFormatter()
 
         @JvmStatic
-        var DefaultPrinter: MessagePrinter = Slf4jOrConsoleMessagePrinter()
+        var DefaultLogger: MessageLogger = Slf4JOrConsoleMessageLogger()
 
         @JvmStatic
-        var DefaultStatisticsCollector: TaskStatisticsCollector = DefaultTaskStatisticsCollector(DefaultPrinter, DefaultTimeFormatter)
+        var DefaultStatisticsCollector: TaskStatisticsCollector = DefaultTaskStatisticsCollector(DefaultLogger, DefaultTimeFormatter)
 
         const val DefaultAddToStatistics = false
 
-        const val DefaultPrintStatisticsNow = false
+        const val DefaultLogStatisticsNow = false
 
 
         @JvmStatic
@@ -69,73 +69,73 @@ open class Stopwatch constructor(
         @JvmStatic
         // overload for programming languages that don't support default parameters
         fun logDuration(taskName: String, task: Runnable) =
-            logDuration(taskName, DefaultAddToStatistics, DefaultPrintStatisticsNow, task)
+            logDuration(taskName, DefaultAddToStatistics, DefaultLogStatisticsNow, task)
 
         @JvmStatic
-        fun logDuration(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Runnable) =
-            logDuration(taskName, addToStatistics, printStatisticsNow) { task.run() }
+        fun logDuration(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, logStatisticsNow: Boolean = DefaultLogStatisticsNow, task: Runnable) =
+            logDuration(taskName, addToStatistics, logStatisticsNow) { task.run() }
 
         @JvmStatic
         // overload for programming languages that don't support default parameters
         inline fun <T> logDuration(taskName: String, task: () -> T): T =
-            logDuration(taskName, DefaultAddToStatistics, DefaultPrintStatisticsNow, task)
+            logDuration(taskName, DefaultAddToStatistics, DefaultLogStatisticsNow, task)
 
         @JvmStatic
-        inline fun <T> logDuration(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: () -> T): T {
+        inline fun <T> logDuration(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, logStatisticsNow: Boolean = DefaultLogStatisticsNow, task: () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
 
-            stopwatch.stopAndLog(taskName, addToStatistics, printStatisticsNow)
+            stopwatch.stopAndLog(taskName, addToStatistics, logStatisticsNow)
 
             return result
         }
 
 
         /**
-         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't print it.
-         * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
+         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't log it.
+         * Set [logStatisticsNow] to true to log task statistics now. Otherwise statistics will be logged when JVM shuts down or by a call to [logStatistics].
          */
         @JvmStatic
         // overload for programming languages that don't support default parameters
         fun measureAndToStatistics(taskName: String, task: Runnable) =
-            measureAndToStatistics(taskName, DefaultPrintStatisticsNow, task)
+            measureAndToStatistics(taskName, DefaultLogStatisticsNow, task)
 
         /**
-         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't print it.
-         * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
+         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't log it.
+         * Set [logStatisticsNow] to true to log task statistics now. Otherwise statistics will be logged when JVM shuts down or by a call to [logStatistics].
          */
         @JvmStatic
-        fun measureAndToStatistics(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: Runnable) =
-            measureAndToStatistics(taskName, printStatisticsNow) { task.run() }
+        fun measureAndToStatistics(taskName: String, logStatisticsNow: Boolean = DefaultLogStatisticsNow, task: Runnable) =
+            measureAndToStatistics(taskName, logStatisticsNow) { task.run() }
 
         /**
-         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't print it.
-         * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
+         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't log it.
+         * Set [logStatisticsNow] to true to log task statistics now. Otherwise statistics will be logged when JVM shuts down or by a call to [logStatistics].
          */
         @JvmStatic
         // overload for programming languages that don't support default parameters
         inline fun <T> measureAndToStatistics(taskName: String, task: () -> T) =
-            measureAndToStatistics(taskName, DefaultPrintStatisticsNow, task)
+            measureAndToStatistics(taskName, DefaultLogStatisticsNow, task)
 
         /**
-         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't print it.
-         * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
+         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't log it.
+         * Set [logStatisticsNow] to true to log task statistics now. Otherwise statistics will be logged when JVM shuts down or by a call to [logStatistics].
          */
         @JvmStatic
-        inline fun <T> measureAndToStatistics(taskName: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow, task: () -> T): T {
+        inline fun <T> measureAndToStatistics(taskName: String, logStatisticsNow: Boolean = DefaultLogStatisticsNow, task: () -> T): T {
             val stopwatch = Stopwatch()
 
             val result = task()
 
-            stopwatch.stopAndAddToStatistics(taskName, printStatisticsNow)
+            stopwatch.stopAndAddToStatistics(taskName, logStatisticsNow)
 
             return result
         }
 
-        fun printStatistics(task: String) = DefaultStatisticsCollector.printStatistics(task)
+        fun logStatistics(task: String) = DefaultStatisticsCollector.logStatistics(task)
 
-        fun printAllStatistics() = DefaultStatisticsCollector.printAllStatistics()
+        fun logAllStatistics() = DefaultStatisticsCollector.logAllStatistics()
     }
 
 
@@ -212,19 +212,19 @@ open class Stopwatch constructor(
     }
 
     /**
-     * Stops the stopwatch and logs the elapsed time formatted to [printer] in format: "<task> <formatted_duration>".
+     * Stops the stopwatch and logs the elapsed time formatted to [logger] in format: "<task> <formatted_duration>".
      */
     // overload for programming languages that don't support default parameters
     open fun stopAndLog(task: String): Duration =
         stopAndLog(task, DefaultAddToStatistics)
 
     /**
-     * Stops the stopwatch and logs the elapsed time formatted to [printer] in format: "<task> <formatted_duration>".
+     * Stops the stopwatch and logs the elapsed time formatted to [logger] in format: "<task> <formatted_duration>".
      */
-    open fun stopAndLog(task: String, addToStatistics: Boolean = DefaultAddToStatistics, printStatisticsNow: Boolean = DefaultPrintStatisticsNow): Duration {
+    open fun stopAndLog(task: String, addToStatistics: Boolean = DefaultAddToStatistics, logStatisticsNow: Boolean = DefaultLogStatisticsNow): Duration {
         stop()
 
-        logElapsedTime(task, addToStatistics, printStatisticsNow)
+        logElapsedTime(task, addToStatistics, logStatisticsNow)
 
         return elapsed
     }
@@ -252,36 +252,36 @@ open class Stopwatch constructor(
     }
 
     /**
-     * Logs the elapsed time formatted to [printer] in format: "<task> <formatted_duration>".
+     * Logs the elapsed time formatted to [logger] in format: "<task> <formatted_duration>".
      */
     // overload for programming languages that don't support default parameters
     open fun logElapsedTime(task: String) =
         logElapsedTime(task, DefaultAddToStatistics)
 
     /**
-     * Logs the elapsed time formatted to [printer] in format: "<task> <formatted_duration>".
+     * Logs the elapsed time formatted to [logger] in format: "<task> <formatted_duration>".
      */
-    open fun logElapsedTime(task: String, addToStatistics: Boolean = DefaultAddToStatistics, printStatisticsNow: Boolean = DefaultPrintStatisticsNow) {
+    open fun logElapsedTime(task: String, addToStatistics: Boolean = DefaultAddToStatistics, logStatisticsNow: Boolean = DefaultLogStatisticsNow) {
         val formattedElapsedTime = formatElapsedTime()
 
-        printer.info("$task took $formattedElapsedTime")
+        logger.info("$task took $formattedElapsedTime")
 
         if (addToStatistics) {
             addToStatistics(task, elapsed)
         }
 
-        if (printStatisticsNow) {
-            printStatistics(task)
+        if (logStatisticsNow) {
+            logStatistics(task)
         }
     }
 
-    open fun stopAndAddToStatistics(task: String, printStatisticsNow: Boolean = DefaultPrintStatisticsNow) {
+    open fun stopAndAddToStatistics(task: String, logStatisticsNow: Boolean = DefaultLogStatisticsNow) {
         val elapsed = stop()
 
         addToStatistics(task, elapsed)
 
-        if (printStatisticsNow) {
-            printStatistics(task)
+        if (logStatisticsNow) {
+            logStatistics(task)
         }
     }
 
@@ -289,8 +289,8 @@ open class Stopwatch constructor(
         statisticsCollector.addElapsedTime(task, elapsed)
     }
 
-    open fun printStatistics(task: String) {
-        statisticsCollector.printStatistics(task)
+    open fun logStatistics(task: String) {
+        statisticsCollector.logStatistics(task)
     }
 
 

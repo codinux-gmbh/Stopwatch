@@ -2,7 +2,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.codinux.util/stopwatch/badge.svg)](https://maven-badges.herokuapp.com/maven-central/net.codinux.util/stopwatch)
 
 Zero dependency Stopwatch for Kotlin Multiplatform (JVM, Android, iOS, Node.js, JS Browser, Linux, Windows, macOS) 
-with a lot of convenience functions to easily measure and log durations and print statistics of measured durations.
+with a lot of convenience functions to easily measure and log durations and log statistics of measured durations.
 
 ## Setup
 
@@ -40,7 +40,7 @@ Simple usage with wrappers around Stopwatch class:
         Stopwatch.logDuration("My important task") { myTask() } // see console log output
         
         // of course you can also specify the (slf4j) logger to log to
-        Stopwatch.DefaultPrinter = Slf4jMessagePrinter("Task logger")
+        Stopwatch.DefaultLogger = Slf4jLogger("Task logger")
         Stopwatch.logDuration("Other task") { myTask() }
         
         // logs elapsed time and returns task's result
@@ -50,11 +50,11 @@ Simple usage with wrappers around Stopwatch class:
         }
 ```
 
-Print statistics of a task's measured durations like min, max and average time:
+Log statistics of a task's measured durations like min, max and average time:
 ```kotlin
-        // adds elapsed time to task's statistics and prints it right away
+        // adds elapsed time to task's statistics and logs it right away
         (1..3).forEach {
-          Stopwatch.logDuration("My important task", addToStatistics = true, printStatisticsNow = true) { myTask() }
+          Stopwatch.logDuration("My important task", addToStatistics = true, logStatisticsNow = true) { myTask() }
         }
         // logs something like this:
         // [main] INFO net.codinux.util.Stopwatch - My important task took 500.179 ms
@@ -66,10 +66,10 @@ Print statistics of a task's measured durations like min, max and average time:
         
         // you can also log the statistics at a defined time:
         (1..10).forEach {
-          // only adds the elapsed times to statistics, but doesn't print it
+          // only adds the elapsed times to statistics, but doesn't log it
           Stopwatch.addDurationToStatistics("My heavy task") { myTask() }
         }
-        Stopwatch.printStatistics("My heavy task") // now print statistics for this task at any time you like. Logs something like this:
+        Stopwatch.logStatistics("My heavy task") // now log statistics for this task at any time you like. Logs something like this:
         // [main] INFO net.codinux.util.Stopwatch - My heavy task [10]: min 500.126 ms, avg 500.182 ms, max 500.319 ms, total 05.001 s
         
         // statistics by default are logged when the JVM shuts down. This looks something like this:

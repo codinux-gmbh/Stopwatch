@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory
  *
  * In order to use it add dependency `org.slf4j:slf4j-api` to the classpath.
  */
-open class Slf4jMessagePrinter(protected open val logger: Logger) : MessagePrinter {
+open class Slf4jLogger(protected open val logger: Logger) : MessageLogger {
 
   constructor(clazz: Class<*>) : this(LoggerFactory.getLogger(clazz))
 

@@ -1,7 +1,7 @@
 package net.codinux.util.statistics
 
 import net.codinux.util.formatter.TimeFormatter
-import net.codinux.util.output.MessagePrinter
+import net.codinux.util.output.MessageLogger
 import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
@@ -9,7 +9,7 @@ import kotlin.concurrent.thread
 
 
 open class DefaultTaskStatisticsCollector(
-  private val printer: MessagePrinter,
+  private val logger: MessageLogger,
   private val timeFormatter: TimeFormatter
 ) : TaskStatisticsCollector {
 
@@ -17,7 +17,7 @@ open class DefaultTaskStatisticsCollector(
 
   init {
     Runtime.getRuntime().addShutdownHook(thread(start = false, name = "Shutdown Hook") {
-      printAllStatistics()
+      logAllStatistics()
     })
   }
 
@@ -47,13 +47,13 @@ open class DefaultTaskStatisticsCollector(
     }
   }
 
-  override fun printAllStatistics() {
-    stats.keys.sorted().forEach { task -> printStatistics(task) }
+  override fun logAllStatistics() {
+    stats.keys.sorted().forEach { task -> logStatistics(task) }
   }
 
-  override fun printStatistics(task: String) {
+  override fun logStatistics(task: String) {
     getStatisticsFor(task)?.let { taskStats ->
-      printer.info(
+      logger.info(
         "$task [${taskStats.countMeasurements}]: " +
           "min ${timeFormatter.format(taskStats.min)}, " +
           "avg ${timeFormatter.format(taskStats.average)}, " +
