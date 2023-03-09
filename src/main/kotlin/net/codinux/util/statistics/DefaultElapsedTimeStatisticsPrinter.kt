@@ -43,7 +43,7 @@ open class DefaultElapsedTimeStatisticsPrinter(
       val average = measurements.map { it.toNanos() }.average().let { Duration.ofNanos(it.toLong()) }
       val total = measurements.fold(Duration.ZERO) { acc, duration -> acc + duration }
 
-      TaskStatistics(measurements.size, min, max, average, total)
+      TaskStatistics(measurements, min, max, average, total)
     }
   }
 
