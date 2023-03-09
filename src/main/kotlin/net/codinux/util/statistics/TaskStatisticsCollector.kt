@@ -3,7 +3,7 @@ package net.codinux.util.statistics
 import java.time.Duration
 
 
-interface ElapsedTimeStatisticsPrinter {
+interface TaskStatisticsCollector {
 
   fun addElapsedTime(task: String, elapsed: Duration)
 

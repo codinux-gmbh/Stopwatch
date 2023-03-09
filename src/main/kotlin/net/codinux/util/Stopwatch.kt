@@ -4,8 +4,8 @@ import net.codinux.util.formatter.DefaultTimeFormatter
 import net.codinux.util.formatter.TimeFormatter
 import net.codinux.util.output.MessagePrinter
 import net.codinux.util.output.Slf4jOrConsoleMessagePrinter
-import net.codinux.util.statistics.DefaultElapsedTimeStatisticsPrinter
-import net.codinux.util.statistics.ElapsedTimeStatisticsPrinter
+import net.codinux.util.statistics.DefaultTaskStatisticsCollector
+import net.codinux.util.statistics.TaskStatisticsCollector
 import java.time.Duration
 import java.util.concurrent.TimeUnit
 
@@ -14,7 +14,7 @@ open class Stopwatch constructor(
     createStarted: Boolean = true,
     protected open val printer: MessagePrinter = DefaultPrinter,
     protected open val timeFormatter: TimeFormatter = DefaultTimeFormatter,
-    protected open val statisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultStatisticsPrinter
+    protected open val statisticsCollector: TaskStatisticsCollector = DefaultStatisticsCollector
 ) {
 
     // overload for programming languages that don't support default parameters
@@ -29,7 +29,7 @@ open class Stopwatch constructor(
         var DefaultPrinter: MessagePrinter = Slf4jOrConsoleMessagePrinter()
 
         @JvmStatic
-        var DefaultStatisticsPrinter: ElapsedTimeStatisticsPrinter = DefaultElapsedTimeStatisticsPrinter(DefaultPrinter, DefaultTimeFormatter)
+        var DefaultStatisticsCollector: TaskStatisticsCollector = DefaultTaskStatisticsCollector(DefaultPrinter, DefaultTimeFormatter)
 
         const val DefaultAddToStatistics = false
 
@@ -93,7 +93,7 @@ open class Stopwatch constructor(
 
 
         /**
-         * Adds the elapsed time only to [ElapsedTimeStatisticsPrinter] but doesn't print it.
+         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't print it.
          * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
          */
         @JvmStatic
@@ -102,7 +102,7 @@ open class Stopwatch constructor(
             measureAndToStatistics(taskName, DefaultPrintStatisticsNow, task)
 
         /**
-         * Adds the elapsed time only to [ElapsedTimeStatisticsPrinter] but doesn't print it.
+         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't print it.
          * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
          */
         @JvmStatic
@@ -110,7 +110,7 @@ open class Stopwatch constructor(
             measureAndToStatistics(taskName, printStatisticsNow) { task.run() }
 
         /**
-         * Adds the elapsed time only to [ElapsedTimeStatisticsPrinter] but doesn't print it.
+         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't print it.
          * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
          */
         @JvmStatic
@@ -119,7 +119,7 @@ open class Stopwatch constructor(
             measureAndToStatistics(taskName, DefaultPrintStatisticsNow, task)
 
         /**
-         * Adds the elapsed time only to [ElapsedTimeStatisticsPrinter] but doesn't print it.
+         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't print it.
          * Set [printStatisticsNow] to true to print task statistics now. Otherwise statistics will be printed when JVM shuts down or by a call to [printStatistics].
          */
         @JvmStatic
@@ -133,9 +133,9 @@ open class Stopwatch constructor(
             return result
         }
 
-        fun printStatistics(task: String) = DefaultStatisticsPrinter.printStatistics(task)
+        fun printStatistics(task: String) = DefaultStatisticsCollector.printStatistics(task)
 
-        fun printAllStatistics() = DefaultStatisticsPrinter.printAllStatistics()
+        fun printAllStatistics() = DefaultStatisticsCollector.printAllStatistics()
     }
 
 
@@ -286,11 +286,11 @@ open class Stopwatch constructor(
     }
 
     protected open fun addToStatistics(task: String, elapsed: Duration) {
-        statisticsPrinter.addElapsedTime(task, elapsed)
+        statisticsCollector.addElapsedTime(task, elapsed)
     }
 
     open fun printStatistics(task: String) {
-        statisticsPrinter.printStatistics(task)
+        statisticsCollector.printStatistics(task)
     }
 
 

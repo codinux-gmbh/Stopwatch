@@ -8,10 +8,10 @@ import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.concurrent.thread
 
 
-open class DefaultElapsedTimeStatisticsPrinter(
+open class DefaultTaskStatisticsCollector(
   private val printer: MessagePrinter,
   private val timeFormatter: TimeFormatter
-) : ElapsedTimeStatisticsPrinter {
+) : TaskStatisticsCollector {
 
   protected open val stats: MutableMap<String, MutableList<Duration>> = ConcurrentHashMap()
 
