@@ -1,15 +1,14 @@
 # Stopwatch
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.codinux.util/stopwatch/badge.svg)](https://maven-badges.herokuapp.com/maven-central/net.codinux.util/stopwatch)
 
-Zero dependency Stopwatch for Kotlin Multiplatform (JVM, Android, iOS, Node.js, JS Browser, Linux, Windows, macOS) 
-with a lot of convenience functions to easily measure and log durations and log statistics of measured durations.
+Zero dependency Stopwatch with a lot of convenience functions to easily measure and log durations and log statistics of measured durations.
 
 ## Setup
 
 ### Gradle
 
 ```
-implementation("net.codinux.util:stopwatch:1.0.3")
+implementation("net.codinux.util:stopwatch:1.5.0")
 ```
 
 ### Maven
@@ -18,7 +17,7 @@ implementation("net.codinux.util:stopwatch:1.0.3")
 <dependency>
     <groupId>net.codinux.util</groupId>
     <artifactId>stopwatch</artifactId>
-    <version>1.0.3</version>
+    <version>1.5.0</version>
 </dependency>
 ```
 
