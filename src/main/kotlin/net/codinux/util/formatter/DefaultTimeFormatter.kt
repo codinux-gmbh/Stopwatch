@@ -1,26 +1,38 @@
 package net.codinux.util.formatter
 
-import java.time.Duration
+import kotlin.time.Duration
 
 
 open class DefaultTimeFormatter : TimeFormatter {
 
     override fun format(duration: Duration): String {
         return when {
-            duration.toMinutes() > 0 -> {
-                String.format("%02d:%02d.%03d min", duration.toMinutes(), duration.toSecondsPart(), duration.toMillisPart())
+            duration.inWholeMinutes > 0 -> {
+                String.format("%02d:%02d.%03d min", duration.inWholeMinutes, toSecondsPart(duration), toMillisPart(duration))
             }
-            duration.toSeconds() > 0 -> {
-                String.format("%02d.%03d s", duration.toSeconds(), duration.toMillisPart())
+            duration.inWholeSeconds > 0 -> {
+                String.format("%02d.%03d s", duration.inWholeSeconds, toMillisPart(duration))
             }
-            duration.toMillis() > 0 -> {
-                String.format("%02d.%03d ms", duration.toMillis(), duration.toNanosPart() / 1000 % 1000)
+            duration.inWholeMilliseconds > 0 -> {
+                String.format("%02d.%03d ms", duration.inWholeMilliseconds, duration.inWholeMicroseconds % 1000)
             }
             else -> {
-                val durationMicroseconds = duration.toNanos() / 1000
-                String.format("%02d.%03d μs", durationMicroseconds, duration.toNanosPart() % 1000)
+                val durationMicroseconds = duration.inWholeMicroseconds
+                String.format("%02d.%03d μs", durationMicroseconds, toNanosPart(duration) % 1000)
             }
         }
+    }
+
+    open fun toSecondsPart(duration: Duration): Int {
+        return (duration.inWholeSeconds % 60L).toInt()
+    }
+
+    open fun toMillisPart(duration: Duration): Int {
+        return (duration.inWholeMilliseconds % 1000).toInt()
+    }
+
+    open fun toNanosPart(duration: Duration): Int {
+        return (duration.inWholeNanoseconds % 1000).toInt()
     }
 
 }

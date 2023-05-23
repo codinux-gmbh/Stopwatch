@@ -6,10 +6,13 @@ import net.codinux.util.output.MessageLogger
 import net.codinux.util.output.Slf4JOrConsoleMessageLogger
 import net.codinux.util.statistics.DefaultTaskStatisticsCollector
 import net.codinux.util.statistics.TaskStatisticsCollector
-import java.time.Duration
 import java.util.concurrent.TimeUnit
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
+import kotlin.time.TimeSource
 
 
+@OptIn(ExperimentalTime::class)
 open class Stopwatch constructor(
     createStarted: Boolean = true,
     protected open val logger: MessageLogger = DefaultLogger,
@@ -35,11 +38,6 @@ open class Stopwatch constructor(
 
         const val DefaultLogStatisticsNow = false
 
-
-        @JvmStatic
-        fun measureDuration(task: Runnable): Duration {
-            return measureDuration { task.run() }
-        }
 
         @JvmStatic
         inline fun measureDuration(task: () -> Unit): Duration {
@@ -145,7 +143,7 @@ open class Stopwatch constructor(
     open var isRunning = false
         protected set
 
-    protected var startedAt = 0L
+    protected var startedAt: TimeSource.Monotonic.ValueTimeMark? = null
 
     protected var elapsedDurationWhenStopped: Duration? = null
 
@@ -161,14 +159,14 @@ open class Stopwatch constructor(
                 return calculateDuration()
             }
 
-            return Duration.ofNanos(0) // not running and never started
+            return Duration.ZERO // not running and never started
         }
 
     /**
      * Returns the elapsed time in nanoseconds.
      */
     open val elapsedNanos: Long
-        get() = elapsed.toNanos()
+        get() = elapsed.inWholeNanoseconds
 
 
     init {
@@ -186,11 +184,11 @@ open class Stopwatch constructor(
 
         isRunning = true
 
-        startedAt = System.nanoTime()
+        startedAt = TimeSource.Monotonic.markNow()
     }
 
     /**
-     * Stops the stopwatch.
+     * Stops the stopwatch and returns the elapsed time as [Duration].
      */
     open fun stop(): Duration {
         if (isRunning) {
@@ -200,6 +198,15 @@ open class Stopwatch constructor(
         }
 
         return elapsed
+    }
+
+    /**
+     * Stops the stopwatch and returns the elapsed time as nanoseconds.
+     */
+    open fun stopNanos(): Long {
+        stop()
+
+        return elapsedNanos
     }
 
     /**
@@ -215,18 +222,16 @@ open class Stopwatch constructor(
      * Stops the stopwatch and logs the elapsed time formatted to [logger] in format: "<task> <formatted_duration>".
      */
     // overload for programming languages that don't support default parameters
-    open fun stopAndLog(task: String): Duration =
+    open fun stopAndLog(task: String) =
         stopAndLog(task, DefaultAddToStatistics)
 
     /**
      * Stops the stopwatch and logs the elapsed time formatted to [logger] in format: "<task> <formatted_duration>".
      */
-    open fun stopAndLog(task: String, addToStatistics: Boolean = DefaultAddToStatistics, logStatisticsNow: Boolean = DefaultLogStatisticsNow): Duration {
+    open fun stopAndLog(task: String, addToStatistics: Boolean = DefaultAddToStatistics, logStatisticsNow: Boolean = DefaultLogStatisticsNow) {
         stop()
 
         logElapsedTime(task, addToStatistics, logStatisticsNow)
-
-        return elapsed
     }
 
 
@@ -238,10 +243,17 @@ open class Stopwatch constructor(
     }
 
     protected open fun calculateDuration(): Duration {
-        val stoppedAt = System.nanoTime()
+        val elapsed = startedAt?.elapsedNow()
 
-        return Duration.ofNanos(stoppedAt - startedAt)
+        if (startedAt == null || elapsed == null) {
+            throw createStopwatchHasNotBeenStartedException()
+        }
+
+        return elapsed
     }
+
+    protected open fun createStopwatchHasNotBeenStartedException(): Throwable =
+        IllegalStateException("Stopwatch has not been started. Start Stopwatch before calling [stop()] or [elapsed] on it.")
 
 
     /**

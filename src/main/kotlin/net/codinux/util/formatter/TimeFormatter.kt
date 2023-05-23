@@ -1,6 +1,6 @@
 package net.codinux.util.formatter
 
-import java.time.Duration
+import kotlin.time.Duration
 
 interface TimeFormatter {
 

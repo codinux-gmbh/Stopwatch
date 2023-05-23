@@ -1,6 +1,7 @@
 package net.codinux.util.showcase;
 
 import net.codinux.util.Stopwatch;
+import net.codinux.util.StopwatchKt;
 import net.codinux.util.output.Slf4jLogger;
 
 import java.time.Duration;
@@ -39,7 +40,7 @@ public class JavaShowcase {
 
     private void showStaticMethods() {
         // returns the elapsed time
-        Duration measuredDuration = Stopwatch.measureDuration(() -> myTask());
+        Duration measuredDuration = StopwatchKt.measureDuration(() -> myTask());
 
         // returns elapsed time formatted
         String formattedDuration = Stopwatch.formatDuration(() -> myTask());
@@ -61,7 +62,8 @@ public class JavaShowcase {
         // returns the elapsed time
         Stopwatch measureDuration = new Stopwatch(); // will automatically be created in started state
         myTask();
-        Duration measuredDuration = measureDuration.stop();
+        long measuredDurationNanos = measureDuration.stopNanos();
+        Duration measuredDuration = StopwatchKt.stopDuration(measureDuration);
 
         // returns elapsed time formatted
         Stopwatch formatDuration = new Stopwatch();
@@ -75,13 +77,13 @@ public class JavaShowcase {
 
         // you can also do all above tasks manually
         Stopwatch notStartedAutomatically = new Stopwatch(false); // creates the stopwatch in stopped state -> has to be started manually
-        Duration notStartedDuration = notStartedAutomatically.getElapsed(); // returns a duration of 0 as stopwatch has not been started yet
+        Duration notStartedDuration = StopwatchKt.getElapsedDuration(notStartedAutomatically); // returns a duration of 0 as stopwatch has not been started yet
 
         notStartedAutomatically.start(); // now start the stopwatch manually
         myTask(); // mimic heavy calculation
 
-        notStartedAutomatically.stop(); // stops the stopwatch manually
-        Duration durationAfterStopping = notStartedAutomatically.getElapsed(); // gets the elapsed time in java.time.Duration
+        notStartedAutomatically.stopNanos(); // stops the stopwatch manually
+        Duration durationAfterStopping = StopwatchKt.getElapsedDuration(notStartedAutomatically); // gets the elapsed time in java.time.Duration
         Long durationInNanoseconds = notStartedAutomatically.getElapsedNanos(); // gets the elapsed time in nanoseconds
         Long durationMillis = notStartedAutomatically.getElapsed(TimeUnit.MILLISECONDS); // gets the elapsed time in a desired time unit, milliseconds in this case
     }

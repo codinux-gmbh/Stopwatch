@@ -2,10 +2,11 @@ package net.codinux.util.statistics
 
 import net.codinux.util.formatter.TimeFormatter
 import net.codinux.util.output.MessageLogger
-import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.concurrent.thread
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.nanoseconds
 
 
 open class DefaultTaskStatisticsCollector(
@@ -40,7 +41,7 @@ open class DefaultTaskStatisticsCollector(
     return getMeasuredDurationsFor(task)?.let { measurements ->
       val min = measurements.minOrNull()!!
       val max = measurements.maxOrNull()!!
-      val average = measurements.map { it.toNanos() }.average().let { Duration.ofNanos(it.toLong()) }
+      val average = measurements.map { it.inWholeNanoseconds }.average().let { it.nanoseconds }
       val total = measurements.fold(Duration.ZERO) { acc, duration -> acc + duration }
 
       TaskStatistics(measurements, min, max, average, total)

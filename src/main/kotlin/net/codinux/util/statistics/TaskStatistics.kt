@@ -1,6 +1,6 @@
 package net.codinux.util.statistics
 
-import java.time.Duration
+import kotlin.time.Duration
 
 data class TaskStatistics(
   val measuredDurations: List<Duration>,
