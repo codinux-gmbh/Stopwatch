@@ -1,8 +1,11 @@
 package net.codinux.util
 
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import java.util.concurrent.TimeUnit
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 class StopwatchTest {
 
@@ -10,7 +13,7 @@ class StopwatchTest {
     fun nanoseconds() {
         val underTest = Stopwatch()
 
-        wait(1, TimeUnit.NANOSECONDS)
+        wait(1, DurationUnit.NANOSECONDS)
 
         val elapsed = underTest.stop()
 //        assertThat(elapsed.toNanos()).isLessThan(1000) // most systems have only microseconds resolution, not nanoseconds
@@ -21,7 +24,7 @@ class StopwatchTest {
     fun microseconds() {
         val underTest = Stopwatch()
 
-        wait(1, TimeUnit.MICROSECONDS)
+        wait(1, DurationUnit.MICROSECONDS)
 
         val elapsed = underTest.stop()
 //        assertThat(elapsed.toNanos()).isLessThan(1000000) // it's not that fast
@@ -32,7 +35,7 @@ class StopwatchTest {
     fun milliseconds() {
         val underTest = Stopwatch()
 
-        wait(1, TimeUnit.MILLISECONDS)
+        wait(1, DurationUnit.MILLISECONDS)
 
         val elapsed = underTest.stop()
         assertThat(elapsed.inWholeMilliseconds).isLessThan(100)
@@ -43,7 +46,7 @@ class StopwatchTest {
     fun seconds() {
         val underTest = Stopwatch()
 
-        wait(1, TimeUnit.SECONDS)
+        wait(1, DurationUnit.SECONDS)
 
         val elapsed = underTest.stop()
         assertThat(elapsed.inWholeSeconds).isLessThan(100)
@@ -51,8 +54,8 @@ class StopwatchTest {
     }
 
 
-    private fun wait(time: Long, unit: TimeUnit) {
-        unit.sleep(time)
+    private fun wait(time: Long, unit: DurationUnit) = runBlocking {
+        delay(time.toDuration(unit))
     }
 
 }

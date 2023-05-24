@@ -6,8 +6,8 @@ import net.codinux.util.output.MessageLogger
 import net.codinux.util.output.Slf4JOrConsoleMessageLogger
 import net.codinux.util.statistics.DefaultTaskStatisticsCollector
 import net.codinux.util.statistics.TaskStatisticsCollector
-import java.util.concurrent.TimeUnit
 import kotlin.time.Duration
+import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
 import kotlin.time.TimeSource
 
@@ -238,8 +238,8 @@ open class Stopwatch constructor(
     /**
      * Returns the elapsed time in a desired time unit.
      */
-    open fun getElapsed(desiredUnit: TimeUnit): Long {
-        return desiredUnit.convert(elapsedNanos, TimeUnit.NANOSECONDS)
+    open fun getElapsed(desiredUnit: DurationUnit): Long {
+        return elapsed.toLong(desiredUnit)
     }
 
     protected open fun calculateDuration(): Duration {

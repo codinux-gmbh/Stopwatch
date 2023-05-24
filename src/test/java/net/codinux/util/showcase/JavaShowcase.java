@@ -1,5 +1,6 @@
 package net.codinux.util.showcase;
 
+import kotlin.time.DurationUnit;
 import net.codinux.util.Stopwatch;
 import net.codinux.util.StopwatchKt;
 import net.codinux.util.output.Slf4jLogger;
@@ -85,7 +86,7 @@ public class JavaShowcase {
         notStartedAutomatically.stopNanos(); // stops the stopwatch manually
         Duration durationAfterStopping = StopwatchKt.getElapsedDuration(notStartedAutomatically); // gets the elapsed time in java.time.Duration
         Long durationInNanoseconds = notStartedAutomatically.getElapsedNanos(); // gets the elapsed time in nanoseconds
-        Long durationMillis = notStartedAutomatically.getElapsed(TimeUnit.MILLISECONDS); // gets the elapsed time in a desired time unit, milliseconds in this case
+        Long durationMillis = notStartedAutomatically.getElapsed(DurationUnit.MILLISECONDS); // gets the elapsed time in a desired time unit, milliseconds in this case
     }
 
 }

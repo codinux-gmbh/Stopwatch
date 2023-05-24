@@ -1,17 +1,23 @@
 package net.codinux.util
 
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
-import java.util.concurrent.TimeUnit
+import kotlin.time.Duration.Companion.milliseconds
 
 class DefaultTaskStatisticsCollectorTest {
 
   @Test
-  fun addElapsedTime() {
+  fun addElapsedTime() = runTest {
     val task = "My task"
     Stopwatch.logDuration(task, true) { }
-    Stopwatch.logDuration(task, true, true) { TimeUnit.MICROSECONDS.sleep(1) }
-    Stopwatch.logDuration(task, true) { TimeUnit.MICROSECONDS.sleep(1) }
-    Stopwatch.logDuration(task, true, true) { TimeUnit.MICROSECONDS.sleep(1) }
+    Stopwatch.logDuration(task, true, true) { wait() }
+    Stopwatch.logDuration(task, true) { wait() }
+    Stopwatch.logDuration(task, true, true) { wait() }
+  }
+
+  private suspend fun wait() {
+    delay(1.milliseconds)
   }
 }

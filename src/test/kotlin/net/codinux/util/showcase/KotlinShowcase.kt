@@ -1,9 +1,11 @@
 package net.codinux.util.showcase
 
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import net.codinux.util.Stopwatch
 import net.codinux.util.output.Slf4jLogger
-import java.lang.Exception
-import java.util.concurrent.TimeUnit
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 
 fun main() {
@@ -15,14 +17,11 @@ class KotlinShowcase {
     companion object {
 
         private fun myTask() {
-            wait(123, TimeUnit.MILLISECONDS)
+            wait(123, DurationUnit.MILLISECONDS)
         }
 
-        private fun wait(time: Long, unit: TimeUnit) {
-            try {
-                unit.sleep(time)
-            } catch (ignored: Exception) {
-            }
+        private fun wait(time: Long, unit: DurationUnit) = runBlocking {
+            delay(time.toDuration(unit))
         }
     }
 
@@ -107,7 +106,7 @@ class KotlinShowcase {
         notStartedAutomatically.stop() // stops the stopwatch manually
         val durationAfterStopping = notStartedAutomatically.elapsed // gets the elapsed time in java.time.Duration
         val durationInNanoseconds = notStartedAutomatically.elapsedNanos // gets the elapsed time in nanoseconds
-        val durationMillis = notStartedAutomatically.getElapsed(TimeUnit.MILLISECONDS) // gets the elapsed time in a desired time unit, milliseconds in this case
+        val durationMillis = notStartedAutomatically.getElapsed(DurationUnit.MILLISECONDS) // gets the elapsed time in a desired time unit, milliseconds in this case
     }
 
 }
