@@ -2,8 +2,8 @@ package net.codinux.util
 
 import net.codinux.util.formatter.DefaultTimeFormatter
 import net.codinux.util.formatter.TimeFormatter
+import net.codinux.util.output.KmpMessageLogger
 import net.codinux.util.output.MessageLogger
-import net.codinux.util.output.Slf4JOrConsoleMessageLogger
 import net.codinux.util.statistics.DefaultTaskStatisticsCollector
 import net.codinux.util.statistics.TaskStatisticsCollector
 import kotlin.time.Duration
@@ -29,7 +29,7 @@ open class Stopwatch constructor(
         var DefaultTimeFormatter: TimeFormatter = DefaultTimeFormatter()
 
         @JvmStatic
-        var DefaultLogger: MessageLogger = Slf4JOrConsoleMessageLogger()
+        var DefaultLogger: MessageLogger = KmpMessageLogger(Stopwatch::class)
 
         @JvmStatic
         var DefaultStatisticsCollector: TaskStatisticsCollector = DefaultTaskStatisticsCollector(DefaultLogger, DefaultTimeFormatter)
