@@ -55,9 +55,7 @@ public class JavaShowcase {
         StopwatchKt.logDuration("Other task", false, false, () -> myTask());
 
         // logs elapsed time and returns task's result
-//        long heavyCalculationResult = Stopwatch.logDuration("Task that returns a result", (Function0<Long>) () -> {
-//            return myTaskWithResult(); // mimic heavy calculation that returns a result to caller
-//        });
+        long heavyCalculationResult = StopwatchKt.logDuration("Task that returns a result", () -> myTaskWithResult());
     }
 
     private void showInstanceMethods() {

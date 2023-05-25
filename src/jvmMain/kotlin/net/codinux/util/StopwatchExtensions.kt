@@ -5,9 +5,11 @@ package net.codinux.util
 import net.codinux.util.Stopwatch.Companion.logStatistics
 import net.codinux.util.statistics.TaskStatisticsCollector
 import java.time.Duration
+import java.util.function.Supplier
+import kotlin.jvm.JvmName
 
 val Stopwatch.elapsedDuration: Duration
-  get() = java.time.Duration.ofNanos(this.elapsedNanos)
+  get() = Duration.ofNanos(this.elapsedNanos)
 
 // methods to make a nicer API for Java
 
@@ -23,6 +25,13 @@ fun logDuration(taskName: String, task: Runnable) =
 
 fun logDuration(taskName: String, addToStatistics: Boolean = Stopwatch.DefaultAddToStatistics, logStatisticsNow: Boolean = Stopwatch.DefaultLogStatisticsNow, task: Runnable) =
   Stopwatch.logDuration(taskName, addToStatistics, logStatisticsNow) { task.run() }
+
+// overload for programming languages that don't support default parameters
+fun <T> logDuration(taskName: String, task: Supplier<T>) =
+  logDuration(taskName, Stopwatch.DefaultAddToStatistics, Stopwatch.DefaultLogStatisticsNow, task)
+
+fun <T> logDuration(taskName: String, addToStatistics: Boolean = Stopwatch.DefaultAddToStatistics, logStatisticsNow: Boolean = Stopwatch.DefaultLogStatisticsNow, task: Supplier<T>) =
+  Stopwatch.logDuration(taskName, addToStatistics, logStatisticsNow) { task.get() }
 
 /**
  * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't log it.
