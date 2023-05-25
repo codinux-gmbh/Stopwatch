@@ -2,9 +2,6 @@ package net.codinux.util.statistics
 
 import net.codinux.util.formatter.TimeFormatter
 import net.codinux.util.output.MessageLogger
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.CopyOnWriteArrayList
-import kotlin.concurrent.thread
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.nanoseconds
 
@@ -14,17 +11,19 @@ open class DefaultTaskStatisticsCollector(
   private val timeFormatter: TimeFormatter
 ) : TaskStatisticsCollector {
 
-  protected open val stats: MutableMap<String, MutableList<Duration>> = ConcurrentHashMap()
+//  protected open val stats: MutableMap<String, MutableList<Duration>> = ConcurrentHashMap()
+  protected open val stats: MutableMap<String, MutableList<Duration>> = mutableMapOf()
 
   init {
-    Runtime.getRuntime().addShutdownHook(thread(start = false, name = "Shutdown Hook") {
-      logAllStatistics()
-    })
+//    Runtime.getRuntime().addShutdownHook(thread(start = false, name = "Shutdown Hook") {
+//      logAllStatistics()
+//    })
   }
 
 
   override fun addElapsedTime(task: String, elapsed: Duration) {
-    stats.getOrPut(task, { CopyOnWriteArrayList() } ).add(elapsed)
+//    stats.getOrPut(task, { CopyOnWriteArrayList() } ).add(elapsed)
+    stats.getOrPut(task, { mutableListOf() } ).add(elapsed)
   }
 
   override fun getMeasuredDurationsFor(task: String): List<Duration>? {

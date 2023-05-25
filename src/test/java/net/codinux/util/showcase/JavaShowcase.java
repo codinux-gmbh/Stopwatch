@@ -1,5 +1,6 @@
 package net.codinux.util.showcase;
 
+import kotlin.jvm.functions.Function0;
 import kotlin.time.DurationUnit;
 import net.codinux.util.Stopwatch;
 import net.codinux.util.StopwatchKt;
@@ -44,19 +45,19 @@ public class JavaShowcase {
         Duration measuredDuration = StopwatchKt.measureDuration(() -> myTask());
 
         // returns elapsed time formatted
-        String formattedDuration = Stopwatch.formatDuration(() -> myTask());
+        String formattedDuration = StopwatchKt.formatDuration(() -> myTask());
 
         // logs elapsed time to class' slf4j logger in format: "<task> <formatted_duration>"
-        Stopwatch.logDuration("My important task", () -> myTask()); // see console log output
+        StopwatchKt.logDuration("My important task", () -> myTask()); // see console log output
 
         // of course you can also customize the (slf4j) logger to log to
         Stopwatch.setDefaultLogger(new KmpMessageLogger("Task logger"));
-        Stopwatch.logDuration("Other task", false, false, () -> myTask());
+        StopwatchKt.logDuration("Other task", false, false, () -> myTask());
 
         // logs elapsed time and returns task's result
-        long heavyCalculationResult = Stopwatch.logDuration("Task that returns a result", () -> {
-            return myTaskWithResult(); // mimic heavy calculation that returns a result to caller
-        });
+//        long heavyCalculationResult = Stopwatch.logDuration("Task that returns a result", (Function0<Long>) () -> {
+//            return myTaskWithResult(); // mimic heavy calculation that returns a result to caller
+//        });
     }
 
     private void showInstanceMethods() {

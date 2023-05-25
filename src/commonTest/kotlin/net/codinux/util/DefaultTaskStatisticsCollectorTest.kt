@@ -2,7 +2,7 @@ package net.codinux.util
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 
 import kotlin.time.Duration.Companion.milliseconds
 

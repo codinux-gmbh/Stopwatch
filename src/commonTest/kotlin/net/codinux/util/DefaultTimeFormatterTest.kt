@@ -1,8 +1,8 @@
 package net.codinux.util
 
+import io.kotest.matchers.comparables.shouldBeEqualComparingTo
 import net.codinux.util.formatter.DefaultTimeFormatter
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.time.Duration.Companion.microseconds
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
@@ -19,7 +19,7 @@ class DefaultTimeFormatterTest {
 
         val result = underTest.format(elapsed)
 
-        assertThat(result).isEqualTo("123.456 ms")
+        result.shouldBeEqualComparingTo("123.456 ms")
     }
 
     @Test
@@ -28,7 +28,7 @@ class DefaultTimeFormatterTest {
 
         val result = underTest.format(elapsed)
 
-        assertThat(result).isEqualTo("01.234 ms")
+        result.shouldBeEqualComparingTo("01.234 ms")
     }
 
     @Test
@@ -37,7 +37,7 @@ class DefaultTimeFormatterTest {
 
         val result = underTest.format(elapsed)
 
-        assertThat(result).isEqualTo("12.345 s")
+        result.shouldBeEqualComparingTo("12.345 s")
     }
 
     @Test
@@ -46,7 +46,7 @@ class DefaultTimeFormatterTest {
 
         val result = underTest.format(elapsed)
 
-        assertThat(result).isEqualTo("01.234 s")
+        result.shouldBeEqualComparingTo("01.234 s")
     }
 
     @Test
@@ -55,7 +55,7 @@ class DefaultTimeFormatterTest {
 
         val result = underTest.format(elapsed)
 
-        assertThat(result).isEqualTo("12:34.567 min")
+        result.shouldBeEqualComparingTo("12:34.567 min")
     }
 
     @Test
@@ -64,7 +64,7 @@ class DefaultTimeFormatterTest {
 
         val result = underTest.format(elapsed)
 
-        assertThat(result).isEqualTo("01:23.456 min")
+        result.shouldBeEqualComparingTo("01:23.456 min")
     }
     
 }

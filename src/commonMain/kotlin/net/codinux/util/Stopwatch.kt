@@ -6,6 +6,7 @@ import net.codinux.util.output.KmpMessageLogger
 import net.codinux.util.output.MessageLogger
 import net.codinux.util.statistics.DefaultTaskStatisticsCollector
 import net.codinux.util.statistics.TaskStatisticsCollector
+import kotlin.jvm.JvmStatic
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
@@ -50,11 +51,6 @@ open class Stopwatch constructor(
 
 
         @JvmStatic
-        fun formatDuration(task: Runnable): String {
-            return formatDuration { task.run() }
-        }
-
-        @JvmStatic
         inline fun formatDuration(task: () -> Unit): String {
             val stopwatch = Stopwatch()
 
@@ -63,15 +59,6 @@ open class Stopwatch constructor(
             return stopwatch.stopAndFormat()
         }
 
-
-        @JvmStatic
-        // overload for programming languages that don't support default parameters
-        fun logDuration(taskName: String, task: Runnable) =
-            logDuration(taskName, DefaultAddToStatistics, DefaultLogStatisticsNow, task)
-
-        @JvmStatic
-        fun logDuration(taskName: String, addToStatistics: Boolean = DefaultAddToStatistics, logStatisticsNow: Boolean = DefaultLogStatisticsNow, task: Runnable) =
-            logDuration(taskName, addToStatistics, logStatisticsNow) { task.run() }
 
         @JvmStatic
         // overload for programming languages that don't support default parameters
@@ -89,23 +76,6 @@ open class Stopwatch constructor(
             return result
         }
 
-
-        /**
-         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't log it.
-         * Set [logStatisticsNow] to true to log task statistics now. Otherwise statistics will be logged when JVM shuts down or by a call to [logStatistics].
-         */
-        @JvmStatic
-        // overload for programming languages that don't support default parameters
-        fun measureAndToStatistics(taskName: String, task: Runnable) =
-            measureAndToStatistics(taskName, DefaultLogStatisticsNow, task)
-
-        /**
-         * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't log it.
-         * Set [logStatisticsNow] to true to log task statistics now. Otherwise statistics will be logged when JVM shuts down or by a call to [logStatistics].
-         */
-        @JvmStatic
-        fun measureAndToStatistics(taskName: String, logStatisticsNow: Boolean = DefaultLogStatisticsNow, task: Runnable) =
-            measureAndToStatistics(taskName, logStatisticsNow) { task.run() }
 
         /**
          * Adds the elapsed time only to [TaskStatisticsCollector] but doesn't log it.
