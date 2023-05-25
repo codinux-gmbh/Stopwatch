@@ -1,7 +1,7 @@
-package net.codinux.util.statistics
+package net.codinux.util.stopwatch.statistics
 
-import net.codinux.util.formatter.TimeFormatter
-import net.codinux.util.output.MessageLogger
+import net.codinux.util.stopwatch.formatter.TimeFormatter
+import net.codinux.util.stopwatch.output.MessageLogger
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.nanoseconds
 

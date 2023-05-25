@@ -1,9 +1,8 @@
 @file:JvmName("StopwatchKt")
 
-package net.codinux.util
+package net.codinux.util.stopwatch
 
-import net.codinux.util.Stopwatch.Companion.logStatistics
-import net.codinux.util.statistics.TaskStatisticsCollector
+import net.codinux.util.stopwatch.statistics.TaskStatisticsCollector
 import java.time.Duration
 import java.util.function.Supplier
 import kotlin.jvm.JvmName

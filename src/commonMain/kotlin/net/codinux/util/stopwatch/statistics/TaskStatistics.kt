@@ -1,4 +1,4 @@
-package net.codinux.util.statistics
+package net.codinux.util.stopwatch.statistics
 
 import kotlin.time.Duration
 

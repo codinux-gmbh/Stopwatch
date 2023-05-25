@@ -1,4 +1,4 @@
-package net.codinux.util
+package net.codinux.util.stopwatch
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest

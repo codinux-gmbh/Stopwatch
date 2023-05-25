@@ -1,4 +1,4 @@
-package net.codinux.util.formatter
+package net.codinux.util.stopwatch.formatter
 
 import kotlin.time.Duration
 

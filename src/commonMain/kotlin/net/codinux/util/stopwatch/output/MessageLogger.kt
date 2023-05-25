@@ -1,4 +1,4 @@
-package net.codinux.util.output
+package net.codinux.util.stopwatch.output
 
 
 /**

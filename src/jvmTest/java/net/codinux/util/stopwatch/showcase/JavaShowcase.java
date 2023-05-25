@@ -1,10 +1,9 @@
-package net.codinux.util.showcase;
+package net.codinux.util.stopwatch.showcase;
 
-import kotlin.jvm.functions.Function0;
 import kotlin.time.DurationUnit;
-import net.codinux.util.Stopwatch;
-import net.codinux.util.StopwatchKt;
-import net.codinux.util.output.KmpMessageLogger;
+import net.codinux.util.stopwatch.Stopwatch;
+import net.codinux.util.stopwatch.StopwatchKt;
+import net.codinux.util.stopwatch.output.KmpMessageLogger;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;

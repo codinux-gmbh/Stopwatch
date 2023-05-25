@@ -1,7 +1,7 @@
-package net.codinux.util
+package net.codinux.util.stopwatch
 
 import io.kotest.matchers.comparables.shouldBeEqualComparingTo
-import net.codinux.util.formatter.DefaultTimeFormatter
+import net.codinux.util.stopwatch.formatter.DefaultTimeFormatter
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.microseconds
 import kotlin.time.Duration.Companion.milliseconds

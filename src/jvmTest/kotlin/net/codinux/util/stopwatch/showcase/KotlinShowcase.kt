@@ -1,9 +1,9 @@
-package net.codinux.util.showcase
+package net.codinux.util.stopwatch.showcase
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import net.codinux.util.Stopwatch
-import net.codinux.util.output.KmpMessageLogger
+import net.codinux.util.stopwatch.Stopwatch
+import net.codinux.util.stopwatch.output.KmpMessageLogger
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 

@@ -1,4 +1,4 @@
-package net.codinux.util
+package net.codinux.util.stopwatch
 
 import io.kotest.matchers.longs.shouldBeGreaterThan
 import io.kotest.matchers.longs.shouldBeLessThan
