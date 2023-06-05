@@ -7,6 +7,7 @@ import net.codinux.util.stopwatch.output.MessageLogger
 import net.codinux.util.stopwatch.statistics.DefaultTaskStatisticsCollector
 import net.codinux.util.stopwatch.statistics.TaskStatisticsCollector
 import kotlin.jvm.JvmStatic
+import kotlin.native.concurrent.ThreadLocal
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
@@ -24,6 +25,8 @@ open class Stopwatch constructor(
     // overload for programming languages that don't support default parameters
     constructor(createStarted: Boolean) : this(createStarted, DefaultLogger)
 
+
+    @ThreadLocal // actually not needed anymore on Kotlin 1.7 and above but to make compiler happy
     companion object {
 
         @JvmStatic
