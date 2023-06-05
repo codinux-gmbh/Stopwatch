@@ -10,6 +10,7 @@ import kotlin.test.Test
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
+@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 class StopwatchTest {
 
     @Test

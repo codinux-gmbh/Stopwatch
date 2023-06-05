@@ -6,6 +6,7 @@ import kotlin.test.Test
 
 import kotlin.time.Duration.Companion.milliseconds
 
+@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 class DefaultTaskStatisticsCollectorTest {
 
   @Test
