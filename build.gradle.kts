@@ -11,6 +11,9 @@ repositories {
 
 
 kotlin {
+    // Enable the default target hierarchy:
+    targetHierarchy.default()
+
     jvm {
 //        jvmToolchain(8)
         withJava()
@@ -20,6 +23,7 @@ kotlin {
     }
 
     js(IR) {
+        moduleName = "stopwatch"
         binaries.executable()
 
         browser {
@@ -41,21 +45,32 @@ kotlin {
         }
     }
 
-    val hostOs = System.getProperty("os.name")
-    val isMingwX64 = hostOs.startsWith("Windows")
-    val nativeTarget = when {
-        hostOs == "Mac OS X" -> macosX64("native")
-        hostOs == "Linux" -> linuxX64("native")
-        isMingwX64 -> mingwX64("native")
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
+
+    linuxX64()
+    mingwX64()
+
+
+    ios {
+        binaries {
+            framework {
+                baseName = "stopwatch"
+            }
+        }
     }
+    iosSimulatorArm64()
+    macosX64()
+    macosArm64()
+    watchos()
+    watchosSimulatorArm64()
+    tvos()
+    tvosSimulatorArm64()
 
-
-    val coroutinesVersion: String by project
-    val slf4jVersion: String by project
-    val kotestVersion: String by project
 
     sourceSets {
+        val coroutinesVersion: String by project
+        val slf4jVersion: String by project
+        val kotestVersion: String by project
+
         val commonMain by getting {
             dependencies {
                 implementation("net.codinux.log:kmp-log:1.0.0")
@@ -91,12 +106,6 @@ kotlin {
                 implementation("org.slf4j:slf4j-simple:$slf4jVersion")
             }
         }
-
-        val jsMain by getting
-        val jsTest by getting
-
-        val nativeMain by getting
-        val nativeTest by getting
     }
 }
 
