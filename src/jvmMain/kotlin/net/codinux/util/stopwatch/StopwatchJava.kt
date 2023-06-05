@@ -1,4 +1,4 @@
-@file:JvmName("StopwatchKt")
+@file:JvmName("StopwatchJava")
 
 package net.codinux.util.stopwatch
 

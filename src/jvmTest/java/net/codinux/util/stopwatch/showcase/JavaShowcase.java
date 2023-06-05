@@ -2,7 +2,7 @@ package net.codinux.util.stopwatch.showcase;
 
 import kotlin.time.DurationUnit;
 import net.codinux.util.stopwatch.Stopwatch;
-import net.codinux.util.stopwatch.StopwatchKt;
+import net.codinux.util.stopwatch.StopwatchJava;
 import net.codinux.util.stopwatch.output.KmpMessageLogger;
 
 import java.time.Duration;
@@ -41,20 +41,20 @@ public class JavaShowcase {
 
     private void showStaticMethods() {
         // returns the elapsed time
-        Duration measuredDuration = StopwatchKt.measureDuration(() -> myTask());
+        Duration measuredDuration = StopwatchJava.measureDuration(() -> myTask());
 
         // returns elapsed time formatted
-        String formattedDuration = StopwatchKt.formatDuration(() -> myTask());
+        String formattedDuration = StopwatchJava.formatDuration(() -> myTask());
 
         // logs elapsed time to class' slf4j logger in format: "<task> <formatted_duration>"
-        StopwatchKt.logDuration("My important task", () -> myTask()); // see console log output
+        StopwatchJava.logDuration("My important task", () -> myTask()); // see console log output
 
         // of course you can also customize the (slf4j) logger to log to
         Stopwatch.setDefaultLogger(new KmpMessageLogger("Task logger"));
-        StopwatchKt.logDuration("Other task", false, false, () -> myTask());
+        StopwatchJava.logDuration("Other task", false, false, () -> myTask());
 
         // logs elapsed time and returns task's result
-        long heavyCalculationResult = StopwatchKt.logDuration("Task that returns a result", () -> myTaskWithResult());
+        long heavyCalculationResult = StopwatchJava.logDuration("Task that returns a result", () -> myTaskWithResult());
     }
 
     private void showInstanceMethods() {
@@ -62,7 +62,7 @@ public class JavaShowcase {
         Stopwatch measureDuration = new Stopwatch(); // will automatically be created in started state
         myTask();
         long measuredDurationNanos = measureDuration.stopNanos();
-        Duration measuredDuration = StopwatchKt.stopDuration(measureDuration);
+        Duration measuredDuration = StopwatchJava.stopDuration(measureDuration);
 
         // returns elapsed time formatted
         Stopwatch formatDuration = new Stopwatch();
@@ -76,13 +76,13 @@ public class JavaShowcase {
 
         // you can also do all above tasks manually
         Stopwatch notStartedAutomatically = new Stopwatch(false); // creates the stopwatch in stopped state -> has to be started manually
-        Duration notStartedDuration = StopwatchKt.getElapsedDuration(notStartedAutomatically); // returns a duration of 0 as stopwatch has not been started yet
+        Duration notStartedDuration = StopwatchJava.getElapsedDuration(notStartedAutomatically); // returns a duration of 0 as stopwatch has not been started yet
 
         notStartedAutomatically.start(); // now start the stopwatch manually
         myTask(); // mimic heavy calculation
 
         notStartedAutomatically.stopNanos(); // stops the stopwatch manually
-        Duration durationAfterStopping = StopwatchKt.getElapsedDuration(notStartedAutomatically); // gets the elapsed time in java.time.Duration
+        Duration durationAfterStopping = StopwatchJava.getElapsedDuration(notStartedAutomatically); // gets the elapsed time in java.time.Duration
         Long durationInNanoseconds = notStartedAutomatically.getElapsedNanos(); // gets the elapsed time in nanoseconds
         Long durationMillis = notStartedAutomatically.getElapsed(DurationUnit.MILLISECONDS); // gets the elapsed time in a desired time unit, milliseconds in this case
     }
