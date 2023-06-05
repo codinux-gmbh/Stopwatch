@@ -7,10 +7,10 @@ import java.time.Duration
 import java.util.function.Supplier
 import kotlin.jvm.JvmName
 
+// methods to make a nicer API for Java
+
 val Stopwatch.elapsedDuration: Duration
   get() = Duration.ofNanos(this.elapsedNanos)
-
-// methods to make a nicer API for Java
 
 fun measureDuration(task: Runnable): Duration = Duration.ofNanos(Stopwatch.measureDuration { task.run() }.inWholeNanoseconds)
 
