@@ -132,6 +132,47 @@ Stopwatch instance methods:
 
 Also see file [JavaShowcase](src/test/java/net/codinux/util/showcase/JavaShowcase.java).
 
+## Logging
+
+Calls like `logDuration()` automatically log the elapsed time to an log appender configured with [KMP-Log](https://github.com/codinux-gmbh/KMP-Log).  
+Therefor it has all the platform specific log appenders that KMP-Log has, e.g. slf4j on JVM, Logcat on Android, OSLog on Apple systems, JavaScript Console in Browser / Node.js, Console on other native platforms, ...  
+How to configure logging with KMP-Log see on the [project website](https://github.com/codinux-gmbh/KMP-Log).
+
+Or implement your own logging:
+```kotlin
+class CustomMessageLogger : MessageLogger {
+
+    override fun info(message: String) {
+        // implement your custom logging here
+        System.err.println(message)
+    }
+
+}
+
+class CustomLoggerShowcase {
+
+    fun runShowcase() {
+        // set default message logger for all instances:
+        Stopwatch.DefaultLogger = CustomMessageLogger()
+
+        // now CustomMessageLogger gets used:
+        Stopwatch.logDuration("Heavy calculation") { heavyCalculation() }
+
+        // or set the custom message logger only for a specific Stopwatch instance
+        val stopwatch = Stopwatch(logger = CustomMessageLogger())
+        heavyCalculation()
+        stopwatch.logElapsedTime("Heavy calculation")
+    }
+
+    private fun heavyCalculation() {
+        // mimic heavy calculation
+        TimeUnit.MILLISECONDS.sleep(300)
+    }
+}
+```
+
+For the code see file [CustomLoggerShowcase](src/test/kotlin/net/codinux/util/showcase/CustomLoggerShowcase.java).
+
 
 # License
 
