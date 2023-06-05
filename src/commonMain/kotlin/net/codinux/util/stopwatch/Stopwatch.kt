@@ -8,14 +8,12 @@ import net.codinux.util.stopwatch.statistics.DefaultTaskStatisticsCollector
 import net.codinux.util.stopwatch.statistics.TaskStatisticsCollector
 import kotlin.jvm.JvmStatic
 import kotlin.native.concurrent.ThreadLocal
-import kotlin.time.Duration
-import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
 import kotlin.time.TimeSource
 
 
 @OptIn(ExperimentalTime::class)
-open class Stopwatch constructor(
+open class Stopwatch(
     createStarted: Boolean = true,
     protected open val logger: MessageLogger = DefaultLogger,
     protected open val timeFormatter: TimeFormatter = DefaultTimeFormatter,
@@ -132,7 +130,7 @@ open class Stopwatch constructor(
                 return calculateDuration()
             }
 
-            return Duration.ZERO // not running and never started
+            return Duration.Zero // not running and never started
         }
 
     /**
@@ -222,7 +220,7 @@ open class Stopwatch constructor(
             throw createStopwatchHasNotBeenStartedException()
         }
 
-        return elapsed
+        return Duration(elapsed.inWholeNanoseconds)
     }
 
     protected open fun createStopwatchHasNotBeenStartedException(): Throwable =

@@ -1,10 +1,9 @@
 package net.codinux.util.stopwatch.statistics
 
+import net.codinux.util.stopwatch.Duration
 import net.codinux.util.stopwatch.formatter.TimeFormatter
 import net.codinux.util.stopwatch.output.MessageLogger
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.nanoseconds
-
+import net.codinux.util.stopwatch.toDuration
 
 open class DefaultTaskStatisticsCollector(
   private val logger: MessageLogger,
@@ -38,12 +37,14 @@ open class DefaultTaskStatisticsCollector(
 
   override fun getStatisticsFor(task: String): TaskStatistics? {
     return getMeasuredDurationsFor(task)?.let { measurements ->
-      val min = measurements.minOrNull()!!
-      val max = measurements.maxOrNull()!!
-      val average = measurements.map { it.inWholeNanoseconds }.average().let { it.nanoseconds }
-      val total = measurements.fold(Duration.ZERO) { acc, duration -> acc + duration }
+      val measurementsNanos = measurements.map { it.inWholeNanoseconds }
 
-      TaskStatistics(measurements, min, max, average, total)
+      val min = measurementsNanos.minOrNull()!!
+      val max = measurementsNanos.maxOrNull()!!
+      val average = measurementsNanos.average().toLong()
+      val total = measurementsNanos.sum()
+
+      TaskStatistics(measurements, min.toDuration(), max.toDuration(), average.toDuration(), total.toDuration())
     }
   }
 

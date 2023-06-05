@@ -15,7 +15,7 @@ class DefaultTimeFormatterTest {
 
     @Test
     fun formatMilliseconds() {
-        val elapsed = 123456.microseconds
+        val elapsed = Duration(123456, DurationUnit.Microseconds)
 
         val result = underTest.format(elapsed)
 
@@ -24,7 +24,7 @@ class DefaultTimeFormatterTest {
 
     @Test
     fun formatLessThan10Milliseconds() {
-        val elapsed = 1234.microseconds
+        val elapsed = Duration(1234, DurationUnit.Microseconds)
 
         val result = underTest.format(elapsed)
 
@@ -33,7 +33,7 @@ class DefaultTimeFormatterTest {
 
     @Test
     fun formatSeconds() {
-        val elapsed = 12.seconds.plus(345.milliseconds)
+        val elapsed = Duration(12_345, DurationUnit.Milliseconds)
 
         val result = underTest.format(elapsed)
 
@@ -42,7 +42,7 @@ class DefaultTimeFormatterTest {
 
     @Test
     fun formatLessThan10Seconds() {
-        val elapsed = 1234.milliseconds
+        val elapsed = Duration(1234, DurationUnit.Milliseconds)
 
         val result = underTest.format(elapsed)
 
@@ -51,7 +51,7 @@ class DefaultTimeFormatterTest {
 
     @Test
     fun formatMinutes() {
-        val elapsed = 12.minutes.plus(34.seconds).plus(567.milliseconds)
+        val elapsed = Duration(12, DurationUnit.Minutes) + Duration(34, DurationUnit.Seconds) + Duration(567, DurationUnit.Milliseconds)
 
         val result = underTest.format(elapsed)
 
@@ -60,7 +60,7 @@ class DefaultTimeFormatterTest {
 
     @Test
     fun formatLessThen10Minutes() {
-        val elapsed = (60 + 23).seconds.plus(456.milliseconds)
+        val elapsed = Duration(60 + 23, DurationUnit.Seconds) + Duration(456, DurationUnit.Milliseconds)
 
         val result = underTest.format(elapsed)
 

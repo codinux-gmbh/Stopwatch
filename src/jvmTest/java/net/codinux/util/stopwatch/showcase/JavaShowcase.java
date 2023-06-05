@@ -1,11 +1,10 @@
 package net.codinux.util.stopwatch.showcase;
 
-import kotlin.time.DurationUnit;
+import net.codinux.util.stopwatch.Duration;
 import net.codinux.util.stopwatch.Stopwatch;
 import net.codinux.util.stopwatch.StopwatchJava;
 import net.codinux.util.stopwatch.output.KmpLogMessageLogger;
 
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -62,7 +61,7 @@ public class JavaShowcase {
         Stopwatch measureDuration = new Stopwatch(); // will automatically be created in started state
         myTask();
         long measuredDurationNanos = measureDuration.stopNanos();
-        Duration measuredDuration = StopwatchJava.stopDuration(measureDuration);
+        Duration measuredDuration = measureDuration.stop();
 
         // returns elapsed time formatted
         Stopwatch formatDuration = new Stopwatch();
@@ -76,15 +75,15 @@ public class JavaShowcase {
 
         // you can also do all above tasks manually
         Stopwatch notStartedAutomatically = new Stopwatch(false); // creates the stopwatch in stopped state -> has to be started manually
-        Duration notStartedDuration = StopwatchJava.getElapsedDuration(notStartedAutomatically); // returns a duration of 0 as stopwatch has not been started yet
+        net.codinux.util.stopwatch.Duration notStartedDuration = notStartedAutomatically.getElapsed(); // returns a duration of 0 as stopwatch has not been started yet
 
         notStartedAutomatically.start(); // now start the stopwatch manually
         myTask(); // mimic heavy calculation
 
         notStartedAutomatically.stopNanos(); // stops the stopwatch manually
-        Duration durationAfterStopping = StopwatchJava.getElapsedDuration(notStartedAutomatically); // gets the elapsed time in java.time.Duration
+        net.codinux.util.stopwatch.Duration durationAfterStopping = notStartedAutomatically.getElapsed(); // gets the elapsed time in java.time.Duration
         Long durationInNanoseconds = notStartedAutomatically.getElapsedNanos(); // gets the elapsed time in nanoseconds
-        Long durationMillis = notStartedAutomatically.getElapsed(DurationUnit.MILLISECONDS); // gets the elapsed time in a desired time unit, milliseconds in this case
+        Long durationMillis = notStartedAutomatically.getElapsed(net.codinux.util.stopwatch.DurationUnit.Milliseconds); // gets the elapsed time in a desired time unit, milliseconds in this case
     }
 
 }

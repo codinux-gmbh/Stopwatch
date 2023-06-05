@@ -1,6 +1,6 @@
 package net.codinux.util.stopwatch.formatter
 
-import kotlin.time.Duration
+import net.codinux.util.stopwatch.Duration
 
 interface TimeFormatter {
 

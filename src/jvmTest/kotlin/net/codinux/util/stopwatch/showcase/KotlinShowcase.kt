@@ -106,7 +106,7 @@ class KotlinShowcase {
         notStartedAutomatically.stop() // stops the stopwatch manually
         val durationAfterStopping = notStartedAutomatically.elapsed // gets the elapsed time in java.time.Duration
         val durationInNanoseconds = notStartedAutomatically.elapsedNanos // gets the elapsed time in nanoseconds
-        val durationMillis = notStartedAutomatically.getElapsed(DurationUnit.MILLISECONDS) // gets the elapsed time in a desired time unit, milliseconds in this case
+        val durationMillis = notStartedAutomatically.getElapsed(net.codinux.util.stopwatch.DurationUnit.Milliseconds) // gets the elapsed time in a desired time unit, milliseconds in this case
     }
 
 }

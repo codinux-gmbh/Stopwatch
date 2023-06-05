@@ -3,16 +3,12 @@
 package net.codinux.util.stopwatch
 
 import net.codinux.util.stopwatch.statistics.TaskStatisticsCollector
-import java.time.Duration
 import java.util.function.Supplier
 import kotlin.jvm.JvmName
 
 // methods to make a nicer API for Java
 
-val Stopwatch.elapsedDuration: Duration
-  get() = Duration.ofNanos(this.elapsedNanos)
-
-fun measureDuration(task: Runnable): Duration = Duration.ofNanos(Stopwatch.measureDuration { task.run() }.inWholeNanoseconds)
+fun measureDuration(task: Runnable): Duration = Stopwatch.measureDuration { task.run() }
 
 fun formatDuration(task: Runnable): String {
   return Stopwatch.formatDuration { task.run() }
@@ -46,5 +42,3 @@ fun measureAndToStatistics(taskName: String, task: Runnable) =
  */
 fun measureAndToStatistics(taskName: String, logStatisticsNow: Boolean = Stopwatch.DefaultLogStatisticsNow, task: Runnable) =
   Stopwatch.measureAndToStatistics(taskName, logStatisticsNow) { task.run() }
-
-fun stopDuration(stopwatch: Stopwatch): Duration = Duration.ofNanos(stopwatch.stopNanos())

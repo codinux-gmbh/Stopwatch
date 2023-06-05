@@ -1,6 +1,6 @@
 package net.codinux.util.stopwatch.statistics
 
-import kotlin.time.Duration
+import net.codinux.util.stopwatch.Duration
 
 data class TaskStatistics(
   val measuredDurations: List<Duration>,
