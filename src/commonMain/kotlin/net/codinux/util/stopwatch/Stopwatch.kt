@@ -2,7 +2,7 @@ package net.codinux.util.stopwatch
 
 import net.codinux.util.stopwatch.formatter.DefaultTimeFormatter
 import net.codinux.util.stopwatch.formatter.TimeFormatter
-import net.codinux.util.stopwatch.output.KmpMessageLogger
+import net.codinux.util.stopwatch.output.KmpLogMessageLogger
 import net.codinux.util.stopwatch.output.MessageLogger
 import net.codinux.util.stopwatch.statistics.DefaultTaskStatisticsCollector
 import net.codinux.util.stopwatch.statistics.TaskStatisticsCollector
@@ -30,7 +30,7 @@ open class Stopwatch constructor(
         var DefaultTimeFormatter: TimeFormatter = DefaultTimeFormatter()
 
         @JvmStatic
-        var DefaultLogger: MessageLogger = KmpMessageLogger(Stopwatch::class)
+        var DefaultLogger: MessageLogger = KmpLogMessageLogger(Stopwatch::class)
 
         @JvmStatic
         var DefaultStatisticsCollector: TaskStatisticsCollector = DefaultTaskStatisticsCollector(DefaultLogger, DefaultTimeFormatter)

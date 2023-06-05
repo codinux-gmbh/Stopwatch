@@ -4,14 +4,16 @@ import net.codinux.log.LoggerFactory
 import kotlin.reflect.KClass
 
 /**
- * Logs messages to an appender depending on platform:
+ * Logs messages to a platform specific appender:
  * - JVM: If slf4j is on the classpath to slf4j, to console otherwise
  * - Android: Logcat
- * - Darwin (iOS, macOS, ...): NSLog
+ * - On Apply systems (iOS, macOS, ...): OSLog if available, NSLog otherwise
  * - Other native platforms: Console
  * - JavaScript: JavaScript console
+ *
+ * See [KMP-Log](https://github.com/codinux-gmbh/KMP-Log) for more information.
  */
-open class KmpMessageLogger(private val log: net.codinux.log.Logger) : MessageLogger {
+open class KmpLogMessageLogger(private val log: net.codinux.log.Logger) : MessageLogger {
 
   constructor(name: String) : this(LoggerFactory.getLogger(name))
 

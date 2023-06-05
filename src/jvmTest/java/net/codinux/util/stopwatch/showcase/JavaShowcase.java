@@ -3,7 +3,7 @@ package net.codinux.util.stopwatch.showcase;
 import kotlin.time.DurationUnit;
 import net.codinux.util.stopwatch.Stopwatch;
 import net.codinux.util.stopwatch.StopwatchJava;
-import net.codinux.util.stopwatch.output.KmpMessageLogger;
+import net.codinux.util.stopwatch.output.KmpLogMessageLogger;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -50,7 +50,7 @@ public class JavaShowcase {
         StopwatchJava.logDuration("My important task", () -> myTask()); // see console log output
 
         // of course you can also customize the (slf4j) logger to log to
-        Stopwatch.setDefaultLogger(new KmpMessageLogger("Task logger"));
+        Stopwatch.setDefaultLogger(new KmpLogMessageLogger("Task logger"));
         StopwatchJava.logDuration("Other task", false, false, () -> myTask());
 
         // logs elapsed time and returns task's result

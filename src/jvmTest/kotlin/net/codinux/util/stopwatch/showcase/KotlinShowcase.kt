@@ -3,7 +3,7 @@ package net.codinux.util.stopwatch.showcase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import net.codinux.util.stopwatch.Stopwatch
-import net.codinux.util.stopwatch.output.KmpMessageLogger
+import net.codinux.util.stopwatch.output.KmpLogMessageLogger
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -45,7 +45,7 @@ class KotlinShowcase {
         Stopwatch.logDuration("My important task") { myTask() } // see console log output
 
         // of course you can also customize the (slf4j) logger to log to
-        Stopwatch.DefaultLogger = KmpMessageLogger("Task logger")
+        Stopwatch.DefaultLogger = KmpLogMessageLogger("Task logger")
         Stopwatch.logDuration("Other task") { myTask() }
 
         // logs elapsed time and returns task's result
