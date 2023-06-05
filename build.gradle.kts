@@ -73,7 +73,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation("net.codinux.log:kmp-log:1.0.0")
+                implementation("net.codinux.log:kmp-log:1.1.1")
 
                 implementation("org.jetbrains.kotlinx:atomicfu:0.20.2")
             }
