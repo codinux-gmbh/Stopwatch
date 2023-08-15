@@ -128,7 +128,7 @@ tasks.named<Test>("jvmTest") {
 
 
 ext["artifactName"] = "stopwatch"
-ext["sourceCodeRepositoryBaseUrl"] = "https://github.com/codinux-gmbh/Stopwatch"
+ext["sourceCodeRepositoryBaseUrl"] = "github.com/codinux-gmbh/Stopwatch"
 
 ext["useNewSonatypeRepo"] = true
 ext["packageGroup"] = "net.codinux"
