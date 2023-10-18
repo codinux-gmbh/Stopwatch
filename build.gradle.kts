@@ -127,17 +127,9 @@ tasks.named<Test>("jvmTest") {
 }
 
 
-ext["artifactName"] = "stopwatch"
+ext["customArtifactId"] = "stopwatch"
 ext["sourceCodeRepositoryBaseUrl"] = "github.com/codinux-gmbh/Stopwatch"
-
-ext["useNewSonatypeRepo"] = true
-ext["packageGroup"] = "net.codinux"
 
 ext["projectDescription"] = "Simple stopwatch to measure and format durations"
 
-ext["developerId"] = "codinux"
-ext["developerName"] = "codinux GmbH & Co. KG"
-ext["developerMail"] = "git@codinux.net"
-
-ext["licenseName"] = "The Apache License, Version 2.0"
-ext["licenseUrl"] = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+apply(from = File("./gradle/scripts/publish-codinux.gradle.kts"))
