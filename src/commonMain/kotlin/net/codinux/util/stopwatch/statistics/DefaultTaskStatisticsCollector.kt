@@ -1,6 +1,7 @@
 package net.codinux.util.stopwatch.statistics
 
 import net.codinux.util.stopwatch.Duration
+import net.codinux.util.stopwatch.collections.ConcurrentMap
 import net.codinux.util.stopwatch.formatter.TimeFormatter
 import net.codinux.util.stopwatch.output.MessageLogger
 import net.codinux.util.stopwatch.toDuration
@@ -10,8 +11,7 @@ open class DefaultTaskStatisticsCollector(
   private val timeFormatter: TimeFormatter
 ) : TaskStatisticsCollector {
 
-//  protected open val stats: MutableMap<String, MutableList<Duration>> = ConcurrentHashMap()
-  protected open val stats: MutableMap<String, MutableList<Duration>> = mutableMapOf()
+  protected open val stats: ConcurrentMap<String, MutableList<Duration>> = ConcurrentMap()
 
   init {
 //    Runtime.getRuntime().addShutdownHook(thread(start = false, name = "Shutdown Hook") {
@@ -26,7 +26,7 @@ open class DefaultTaskStatisticsCollector(
   }
 
   override fun getMeasuredDurationsFor(task: String): List<Duration>? {
-    val taskStats = stats[task]
+    val taskStats = stats.get(task)
 
     return if (taskStats.isNullOrEmpty()) {
       null
