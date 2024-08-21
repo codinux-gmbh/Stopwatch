@@ -1,7 +1,9 @@
 package net.codinux.util.stopwatch.statistics
 
 import net.codinux.util.stopwatch.Duration
+import net.codinux.util.stopwatch.collections.ConcurrentList
 import net.codinux.util.stopwatch.collections.ConcurrentMap
+import net.codinux.util.stopwatch.collections.isNullOrEmpty
 import net.codinux.util.stopwatch.formatter.TimeFormatter
 import net.codinux.util.stopwatch.output.MessageLogger
 import net.codinux.util.stopwatch.toDuration
@@ -11,7 +13,7 @@ open class DefaultTaskStatisticsCollector(
   private val timeFormatter: TimeFormatter
 ) : TaskStatisticsCollector {
 
-  protected open val stats: ConcurrentMap<String, MutableList<Duration>> = ConcurrentMap()
+  protected open val stats: ConcurrentMap<String, ConcurrentList<Duration>> = ConcurrentMap()
 
   init {
 //    Runtime.getRuntime().addShutdownHook(thread(start = false, name = "Shutdown Hook") {
@@ -21,8 +23,7 @@ open class DefaultTaskStatisticsCollector(
 
 
   override fun addElapsedTime(task: String, elapsed: Duration) {
-//    stats.getOrPut(task, { CopyOnWriteArrayList() } ).add(elapsed)
-    stats.getOrPut(task, { mutableListOf() } ).add(elapsed)
+    stats.getOrPut(task, { ConcurrentList() } ).add(elapsed)
   }
 
   override fun getMeasuredDurationsFor(task: String): List<Duration>? {
@@ -31,7 +32,7 @@ open class DefaultTaskStatisticsCollector(
     return if (taskStats.isNullOrEmpty()) {
       null
     } else {
-      ArrayList(taskStats) // don't pass mutable state to the outside
+      ArrayList(taskStats.asCollection()) // don't pass mutable state to the outside
     }
   }
 

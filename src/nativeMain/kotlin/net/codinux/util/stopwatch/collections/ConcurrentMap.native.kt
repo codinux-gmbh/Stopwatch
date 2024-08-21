@@ -5,7 +5,7 @@ import kotlin.native.concurrent.AtomicReference
 
 actual open class ConcurrentMap<K, V> {
 
-    protected open val atomicMap = AtomicReference(mapOf<K, V>())
+    protected open val atomicMap = AtomicReference(mutableMapOf<K, V>())
 
     actual val keys: Set<K>
         get() = atomicMap.value.keys
@@ -29,7 +29,7 @@ actual open class ConcurrentMap<K, V> {
                 return putInTheMeantime
             }
 
-            val updated = existing.toMutableMap()
+            val updated = existing
             updated[key] = newValue
         } while (atomicMap.compareAndSet(existing, updated) == false)
 
@@ -42,7 +42,7 @@ actual open class ConcurrentMap<K, V> {
         do {
             val existing = atomicMap.value
 
-            val updated = existing.toMutableMap()
+            val updated = existing
             updated[key] = value
         } while (atomicMap.compareAndSet(existing, updated) == false)
 
@@ -55,7 +55,7 @@ actual open class ConcurrentMap<K, V> {
         do {
             val existing = atomicMap.value
 
-            val updated = existing.toMutableMap()
+            val updated = existing
             previousValue = updated.remove(key)
         } while (atomicMap.compareAndSet(existing, updated) == false)
 
@@ -64,7 +64,7 @@ actual open class ConcurrentMap<K, V> {
 
     actual open fun clear() {
         @Suppress("ControlFlowWithEmptyBody")
-        while (atomicMap.compareAndSet(atomicMap.value, mapOf()) == false) { }
+        while (atomicMap.compareAndSet(atomicMap.value, mutableMapOf()) == false) { }
     }
 
 }
