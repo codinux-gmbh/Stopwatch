@@ -48,6 +48,8 @@ kotlin {
         }
     }
 
+    wasmJs()
+
 
     linuxX64()
     mingwX64()
