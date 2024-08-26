@@ -8,7 +8,7 @@ Zero dependency Stopwatch with a lot of convenience functions to easily measure 
 ### Gradle
 
 ```
-implementation("net.codinux.util:stopwatch:2.0.0")
+implementation("net.codinux.util:stopwatch:2.2.0")
 ```
 
 ### Maven
@@ -17,7 +17,7 @@ implementation("net.codinux.util:stopwatch:2.0.0")
 <dependency>
     <groupId>net.codinux.util</groupId>
     <artifactId>stopwatch-jvm</artifactId>
-    <version>2.0.0</version>
+    <version>2.2.0</version>
 </dependency>
 ```
 
