@@ -11,11 +11,14 @@ repositories {
 
 
 kotlin {
-    // Enable the default target hierarchy:
-    targetHierarchy.default()
+    jvmToolchain(8)
+
+    compilerOptions {
+        // suppresses compiler warning: [EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING] 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta.
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
 
     jvm {
-//        jvmToolchain(8)
         withJava()
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
@@ -50,20 +53,17 @@ kotlin {
     mingwX64()
 
 
-    ios {
-        binaries {
-            framework {
-                baseName = "stopwatch"
-            }
-        }
-    }
+    iosX64()
+    iosArm64()
     iosSimulatorArm64()
     macosX64()
     macosArm64()
-    watchos()
+    watchosArm64()
     watchosSimulatorArm64()
-    tvos()
+    tvosArm64()
     tvosSimulatorArm64()
+
+    applyDefaultHierarchyTemplate()
 
 
     sourceSets {
@@ -73,9 +73,9 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation("net.codinux.log:kmp-log:1.5.1")
+                implementation("net.codinux.log:klf:1.6.0")
 
-                implementation("org.jetbrains.kotlinx:atomicfu:0.20.2")
+                implementation("org.jetbrains.kotlinx:atomicfu:0.25.0")
             }
         }
         val commonTest by getting {

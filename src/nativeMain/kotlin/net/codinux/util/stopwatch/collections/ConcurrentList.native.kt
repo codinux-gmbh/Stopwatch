@@ -1,6 +1,6 @@
 package net.codinux.util.stopwatch.collections
 
-import kotlin.native.concurrent.AtomicReference
+import kotlin.concurrent.AtomicReference
 
 actual open class ConcurrentList<E> {
 
