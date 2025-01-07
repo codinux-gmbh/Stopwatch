@@ -16,7 +16,7 @@ repositories {
 
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(11)
 
     compilerOptions {
         // suppresses compiler warning: [EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING] 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta.
@@ -80,9 +80,9 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation("net.codinux.log:klf:1.6.0")
+                implementation("net.codinux.log:klf:1.8.0")
 
-                implementation("org.jetbrains.kotlinx:atomicfu:0.25.0")
+                implementation("org.jetbrains.kotlinx:atomicfu:0.26.1")
             }
         }
         val commonTest by getting {
