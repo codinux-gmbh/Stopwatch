@@ -10,6 +10,8 @@ interface TaskStatisticsCollector {
 
   fun getStatisticsFor(task: String): TaskStatistics?
 
+  fun getAllStatistics(): List<TaskStatistics>
+
   fun logStatistics(task: String)
 
   fun logAllStatistics()

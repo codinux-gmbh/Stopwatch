@@ -49,6 +49,9 @@ open class DefaultTaskStatisticsCollector(
     }
   }
 
+  override fun getAllStatistics(): List<TaskStatistics> =
+    stats.keys.sorted().mapNotNull { getStatisticsFor(it) }
+
   override fun logAllStatistics() {
     stats.keys.sorted().forEach { task -> logStatistics(task) }
   }
