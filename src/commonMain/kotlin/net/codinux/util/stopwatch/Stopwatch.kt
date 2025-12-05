@@ -41,6 +41,9 @@ open class Stopwatch(
 
         const val DefaultLogStatisticsNow = false
 
+        @JvmStatic
+        var DefaultStatisticsSortProperty: StatisticsSortProperty = StatisticsSortProperty.TaskName
+
 
         @JvmStatic
         inline fun measureDuration(task: () -> Unit): Duration {
@@ -105,9 +108,9 @@ open class Stopwatch(
 
         fun logStatistics(task: String) = DefaultStatisticsCollector.logStatistics(task)
 
-        fun logAllStatistics() = DefaultStatisticsCollector.logAllStatistics()
+        fun logAllStatistics() = DefaultStatisticsCollector.logAllStatistics(DefaultStatisticsSortProperty)
 
-        fun logAllStatistics(sort: StatisticsSortProperty) = DefaultStatisticsCollector.logAllStatistics(sort)
+        fun logAllStatistics(sort: StatisticsSortProperty = DefaultStatisticsSortProperty) = DefaultStatisticsCollector.logAllStatistics(sort)
     }
 
 
