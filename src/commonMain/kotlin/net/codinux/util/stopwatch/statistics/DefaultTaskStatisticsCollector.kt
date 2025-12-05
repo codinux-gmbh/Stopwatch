@@ -49,23 +49,38 @@ open class DefaultTaskStatisticsCollector(
     }
   }
 
-  override fun getAllStatistics(): List<TaskStatistics> =
+  override fun getAllStatistics(sort: StatisticsSortProperty): List<TaskStatistics> =
     stats.keys.sorted().mapNotNull { getStatisticsFor(it) }
+      .sortedWith { a, b -> compare(a, b, sort) }
 
-  override fun logAllStatistics() {
-    stats.keys.sorted().forEach { task -> logStatistics(task) }
+  override fun logAllStatistics(sort: StatisticsSortProperty) {
+    getAllStatistics(sort).forEach { taskStats -> logStatistics(taskStats) }
   }
 
   override fun logStatistics(task: String) {
     getStatisticsFor(task)?.let { taskStats ->
-      logger.info(
-        "$task [${taskStats.countMeasurements}]: " +
+      logStatistics(taskStats)
+    }
+  }
+
+  protected open fun logStatistics(taskStats: TaskStatistics) {
+    logger.info(
+      "${taskStats.task} [${taskStats.countMeasurements}]: " +
           "min ${timeFormatter.format(taskStats.min)}, " +
           "avg ${timeFormatter.format(taskStats.average)}, " +
           "max ${timeFormatter.format(taskStats.max)}, " +
           "total ${timeFormatter.format(taskStats.total)}"
-      )
-    }
+    )
+  }
+
+
+  protected open fun compare(stats1: TaskStatistics, stats2: TaskStatistics, sort: StatisticsSortProperty): Int = when (sort) {
+    StatisticsSortProperty.TaskName -> stats1.task.compareTo(stats2.task)
+    StatisticsSortProperty.CountMeasurements -> stats2.countMeasurements.compareTo(stats1.countMeasurements)
+    StatisticsSortProperty.MinDuration -> stats1.min.compareTo(stats2.min)
+    StatisticsSortProperty.AverageDuration -> stats2.average.compareTo(stats1.average)
+    StatisticsSortProperty.MaxDuration -> stats2.max.compareTo(stats1.max)
+    StatisticsSortProperty.TotalDuration -> stats2.total.compareTo(stats1.total)
   }
 
 }

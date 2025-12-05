@@ -2,7 +2,7 @@ package net.codinux.util.stopwatch
 
 import net.codinux.util.stopwatch.formatter.DefaultTimeFormatter
 
-class Duration(nanoseconds: Long) {
+class Duration(nanoseconds: Long): Comparable<Duration> {
 
     constructor(valueInUnit: Long, unit: DurationUnit) : this(valueInUnit * unit.nanosecondsFactor)
 
@@ -30,6 +30,9 @@ class Duration(nanoseconds: Long) {
     operator fun plus(other: Duration): Duration {
         return Duration(this.inWholeNanoseconds + other.inWholeNanoseconds)
     }
+
+    override fun compareTo(other: Duration): Int =
+      this.inWholeNanoseconds.compareTo(other.inWholeNanoseconds)
 
 
     override fun toString(): String {

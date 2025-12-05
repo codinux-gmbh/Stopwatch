@@ -5,6 +5,7 @@ import net.codinux.util.stopwatch.formatter.TimeFormatter
 import net.codinux.util.stopwatch.output.KmpLogMessageLogger
 import net.codinux.util.stopwatch.output.MessageLogger
 import net.codinux.util.stopwatch.statistics.DefaultTaskStatisticsCollector
+import net.codinux.util.stopwatch.statistics.StatisticsSortProperty
 import net.codinux.util.stopwatch.statistics.TaskStatisticsCollector
 import kotlin.jvm.JvmStatic
 import kotlin.native.concurrent.ThreadLocal
@@ -105,6 +106,8 @@ open class Stopwatch(
         fun logStatistics(task: String) = DefaultStatisticsCollector.logStatistics(task)
 
         fun logAllStatistics() = DefaultStatisticsCollector.logAllStatistics()
+
+        fun logAllStatistics(sort: StatisticsSortProperty) = DefaultStatisticsCollector.logAllStatistics(sort)
     }
 
 

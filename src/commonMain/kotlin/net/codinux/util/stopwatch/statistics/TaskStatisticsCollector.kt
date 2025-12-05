@@ -10,10 +10,14 @@ interface TaskStatisticsCollector {
 
   fun getStatisticsFor(task: String): TaskStatistics?
 
-  fun getAllStatistics(): List<TaskStatistics>
+  fun getAllStatistics(): List<TaskStatistics> = getAllStatistics(StatisticsSortProperty.TaskName)
+
+  fun getAllStatistics(sort: StatisticsSortProperty = StatisticsSortProperty.TaskName): List<TaskStatistics>
 
   fun logStatistics(task: String)
 
-  fun logAllStatistics()
+  fun logAllStatistics() = logAllStatistics(StatisticsSortProperty.TaskName)
+
+  fun logAllStatistics(sort: StatisticsSortProperty = StatisticsSortProperty.TaskName)
 
 }
