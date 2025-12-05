@@ -45,7 +45,7 @@ open class DefaultTaskStatisticsCollector(
       val average = measurementsNanos.average().toLong()
       val total = measurementsNanos.sum()
 
-      TaskStatistics(measurements, min.toDuration(), max.toDuration(), average.toDuration(), total.toDuration())
+      TaskStatistics(task, measurements, min.toDuration(), max.toDuration(), average.toDuration(), total.toDuration())
     }
   }
 

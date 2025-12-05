@@ -3,6 +3,7 @@ package net.codinux.util.stopwatch.statistics
 import net.codinux.util.stopwatch.Duration
 
 data class TaskStatistics(
+  val task: String,
   val measuredDurations: List<Duration>,
   val min: Duration,
   val max: Duration,
