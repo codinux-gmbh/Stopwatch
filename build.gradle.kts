@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "net.codinux.util"
-version = "2.1.1"
+version = "2.1.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
